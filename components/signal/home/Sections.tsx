@@ -20,7 +20,7 @@ export function FrameworkIndex() {
         <Reveal as="h2" className="wide max-w-5xl text-[clamp(2rem,4.6vw,5rem)]">
           {frameworkCount} frameworks. <span className="em text-brand">One partner.</span>
         </Reveal>
-        <div className="mt-14 border-t border-line md:mt-20">
+        <div className="mt-14 border-t border-line md:mt-12">
           {frameworkGroups.map((g) => (
             <FadeUp key={g.id} y={24} className="grid gap-4 border-b border-line py-7 md:grid-cols-12 md:py-9">
               <div className="flex items-baseline gap-3 md:col-span-3">
@@ -76,7 +76,7 @@ export function ServiceConsole() {
           Five services. <span className="em text-brand">One program.</span>
         </Reveal>
 
-        <div className="mt-14 grid gap-6 md:mt-20 lg:grid-cols-12">
+        <div className="mt-14 grid gap-6 md:mt-12 lg:grid-cols-12">
           <ul className="border-t border-line lg:col-span-5" role="tablist" aria-label="Services">
             {services.map((sv, n) => (
               <li key={sv.id} className="border-b border-line">
@@ -199,7 +199,7 @@ export function StoriesBento() {
             All customer stories <Arrow className="size-3" />
           </Link>
         </div>
-        <div className="mt-14 grid gap-4 md:mt-20 lg:grid-cols-12 lg:grid-rows-2">
+        <div className="mt-14 grid gap-4 md:mt-12 lg:grid-cols-12 lg:grid-rows-2">
           <StoryTile s={a} big className="lg:col-span-7 lg:row-span-2" />
           <StoryTile s={b} className="lg:col-span-5" />
           <StoryTile s={c} className="lg:col-span-5" />
@@ -247,7 +247,7 @@ export function InsightsIndex() {
             All insights <Arrow className="size-3" />
           </Link>
         </div>
-        <ul className="mt-14 border-t border-line md:mt-20">
+        <ul className="mt-14 border-t border-line md:mt-12">
           {articles.slice(0, 4).map((a) => (
             <li key={a.slug}>
               <Link href={`/insights/${a.slug}`} data-label={a.tag} className="group grid gap-2 border-b border-line py-7 md:grid-cols-12 md:items-baseline md:gap-6">

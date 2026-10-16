@@ -118,16 +118,30 @@ body {
   font-style: italic;
   font-weight: inherit;
 }
-.eyebrow {
-  font-family: var(--font-geist), system-ui, sans-serif;
-  font-size: 0.7rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+/* In the components layer so size/tracking utilities (text-[0.6rem], tracking-*) can override it. */
+@layer components {
+  .eyebrow {
+    font-family: var(--font-geist), system-ui, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
 }
 .mono {
   font-family: var(--font-geist-mono), ui-monospace, monospace;
   letter-spacing: 0;
+}
+/* Figures: a sturdy grotesk with even-width, lining digits, so numbers sit
+   level and match the labels under them (the display serif's numerals are
+   hairline-thin and narrow at large sizes). */
+.num {
+  font-family: var(--font-geist), system-ui, sans-serif;
+  font-weight: 500;
+  font-feature-settings: "tnum", "lnum";
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: -0.055em;
+  line-height: 0.9;
 }
 .serif {
   font-family: var(--font-instrument), "Times New Roman", serif;
@@ -319,4 +333,89 @@ html.has-cursor textarea {
 .link-u:hover {
   background-size: 0% 1px;
   background-position: 100% 100%;
+}
+
+/* ───────── Logo knotting intro ─────────
+   An <SecureKnotsLogo animated> starts with every piece hidden, so nothing
+   flashes before the timeline (lib/brand/knotTimeline.ts) takes over. */
+[data-knot-intro] [data-knot-piece],
+[data-knot-intro] [data-knot-frame] {
+  opacity: 0;
+}
+@keyframes logo-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(0.94); opacity: 0.8; }
+}
+
+/* ───────── Footer ─────────
+   Boxes: a soft light follows the pointer (--x / --y set in MeridianFooter). */
+.ft-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(420px circle at var(--x, 50%) var(--y, 50%), rgb(159 181 255 / 0.14), transparent 45%);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out);
+  pointer-events: none;
+}
+.ft-box:hover::before {
+  opacity: 1;
+}
+.ft-box:hover {
+  border-color: rgb(159 181 255 / 0.28);
+}
+
+/* The wordmark in polished chrome: a bright sky, a cobalt horizon, a lit
+   floor. A sheen sweeps across now and then; on hover the highlight follows
+   the pointer and fine vertical blades catch the light. */
+@property --mx {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 50%;
+}
+@property --my {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 40%;
+}
+@property --shine {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+@property --blade {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+.chrome-word {
+  background-image:
+    radial-gradient(18% 75% at var(--mx) var(--my), rgb(255 255 255 / calc(var(--shine) * 0.95)), rgb(255 255 255 / 0) 70%),
+    repeating-linear-gradient(90deg, rgb(255 255 255 / 0) 0 16px, rgb(255 255 255 / calc(var(--blade) * 0.55)) 16px 18px, rgb(15 23 41 / calc(var(--blade) * 0.45)) 18px 21px, rgb(255 255 255 / 0) 21px 34px),
+    linear-gradient(180deg, #ffffff 0%, #e2e8fb 20%, #a9baf1 39%, #4466dc 48%, #22378c 50.5%, #5576e0 54%, #bccaf4 67%, #f3f6fe 84%, #c5d0f3 100%);
+  background-position: 0 0, var(--bx, 0px) 0, 0 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: chrome-idle 7s var(--ease-in-out) infinite;
+  transition: --shine 0.5s var(--ease-out), --blade 0.6s var(--ease-out);
+  cursor: default;
+}
+.chrome-word[data-hot] {
+  animation: none;
+  --shine: 1;
+  --blade: 1;
+}
+@keyframes chrome-idle {
+  0% { --mx: -20%; --shine: 0; }
+  12% { --shine: 0.55; }
+  32% { --mx: 120%; --shine: 0; }
+  100% { --mx: 120%; --shine: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chrome-word {
+    animation: none;
+  }
 }

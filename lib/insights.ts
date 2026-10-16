@@ -54,7 +54,7 @@ export const articles: Article[] = [
     excerpt: "The right first framework depends on where your buyers are and what they'll accept. Here's a simple way to decide.",
     tone: "ink",
     sections: [
-      { h: "Follow your pipeline", p: ["North American buyers tend to ask for SOC 2. European, Middle Eastern and many Asian buyers lean towards ISO 27001. Look at the last ten security reviews you faced."] },
+      { h: "Follow your pipeline", p: ["North American buyers tend to ask for SOC 2. European, Middle Eastern and many Asian buyers lean toward ISO 27001. Look at the last ten security reviews you faced."] },
       { h: "Plan for both from day one", p: ["The controls overlap heavily. Designing one control set that satisfies both means the second framework costs a fraction of the first."] },
       { h: "Mind the timelines", p: ["A SOC 2 Type I can land quickly, but Type II needs an observation window. ISO 27001 certification is a single two-stage audit. Sequence them around your deal calendar."] },
     ],
@@ -97,8 +97,8 @@ export const articles: Article[] = [
     excerpt: "Notices, consent, breach reporting and rights handling, a practical first-quarter plan for data fiduciaries.",
     tone: "ink",
     sections: [
-      { h: "Inventory before notices", p: ["You can't write an itemised notice without knowing what you collect and why. Start with a data inventory tied to purposes."] },
-      { h: "Operationalise rights", p: ["Access, correction and erasure requests need owners, workflows and timelines, test them before users do."] },
+      { h: "Inventory before notices", p: ["You can't write an itemized notice without knowing what you collect and why. Start with a data inventory tied to purposes."] },
+      { h: "Operationalize rights", p: ["Access, correction and erasure requests need owners, workflows and timelines, test them before users do."] },
     ],
   },
 ];

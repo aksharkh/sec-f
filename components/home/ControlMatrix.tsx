@@ -11,7 +11,7 @@ const rows: { id: string; name: string; owner: string; map: number[] }[] = [
   { id: "RA-01", name: "Annual risk assessment", owner: "GRC", map: [1, 1, 1, 1, 1] },
   { id: "IR-03", name: "Incident response tabletop", owner: "Security", map: [1, 1, 1, 1, 0] },
   { id: "VM-02", name: "Vendor security reviews", owner: "Procurement", map: [1, 1, 1, 1, 1] },
-  { id: "LG-05", name: "Centralised log retention", owner: "Platform", map: [1, 1, 1, 1, 0] },
+  { id: "LG-05", name: "Centralized log retention", owner: "Platform", map: [1, 1, 1, 1, 0] },
   { id: "AI-02", name: "AI system impact assessment", owner: "Product", map: [0, 0, 0, 0, 1] },
   { id: "DP-03", name: "Encryption at rest & in transit", owner: "Platform", map: [1, 1, 1, 1, 1] },
 ];

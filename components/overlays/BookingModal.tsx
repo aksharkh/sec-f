@@ -5,7 +5,9 @@ import { BOOK_EVENT, toast } from "@/lib/gsap";
 import { Modal, CloseButton } from "./Modal";
 import { ReededGlassStatic } from "@/components/ui/ReededGlass";
 
-const FRAMEWORKS = ["SOC 2", "ISO 27001", "ISO 42001", "HIPAA", "PCI DSS", "FedRAMP", "CMMC", "GDPR", "DORA", "DPDPA", "SEBI CSCRF", "Not sure yet"];
+const FRAMEWORKS = ["SOC 2", "ISO 27001", "ISO 42001", "HIPAA", "PCI DSS", "FedRAMP", "CMMC", "GDPR", "DORA", "DPDPA", "SEBI CSCRF", "ISO 14001", "ISO 28000", "UK BS standards", "Not sure yet"];
+
+type BookDetail = { framework?: string; frameworks?: string[]; message?: string } | undefined;
 const TIMELINES = ["Under 3 months", "3-6 months", "6-12 months", "Just exploring"];
 const SIZES = ["1-50", "51-200", "201-1,000", "1,000+"];
 const STEPS = ["Frameworks", "Timeline", "Details"];
@@ -23,8 +25,13 @@ export function BookingModal() {
 
   useEffect(() => {
     const onBook = (e: Event) => {
-      const fw = (e as CustomEvent<{ framework?: string } | undefined>).detail?.framework;
-      setForm((f) => (fw && !f.frameworks.includes(fw) ? { ...f, frameworks: [...f.frameworks, fw] } : f));
+      const d = (e as CustomEvent<BookDetail>).detail;
+      const picks = [...(d?.frameworks ?? []), ...(d?.framework ? [d.framework] : [])];
+      setForm((f) => ({
+        ...f,
+        frameworks: [...f.frameworks, ...picks.filter((p) => !f.frameworks.includes(p))],
+        message: d?.message && !f.message ? d.message : f.message,
+      }));
       setOpen(true);
     };
     // Any link to #book (usable from server components) opens the modal.
@@ -117,7 +124,7 @@ export function BookingModal() {
                 You&apos;re <span className="em text-brand">tied in.</span>
               </h2>
               <p className="mt-5 max-w-md text-lg text-muted">
-                Thanks, {form.name.split(" ")[0]}. A practitioner specialising in {form.frameworks.slice(0, 2).join(" and ") || "your frameworks"} will email{" "}
+                Thanks, {form.name.split(" ")[0]}. A practitioner specializing in {form.frameworks.slice(0, 2).join(" and ") || "your frameworks"} will email{" "}
                 {form.email} within one business day with times to meet.
               </p>
               <button type="button" onClick={close} className="mt-10 w-fit rounded-full bg-ink px-6 py-3.5 text-ivory">

@@ -8,7 +8,7 @@ const TARGET = 2; // the first "I", a solid stem we can dive through
 
 /**
  * An ivory wall with a giant word knocked out of it. Scrolling scales the word
- * around the centre of one letter's stem until the stem fills the screen  - 
+ * around the center of one letter's stem until the stem fills the screen  - 
  * so you pass *through* the letter into the navy scene behind.
  */
 export function LetterPortal() {
@@ -31,10 +31,10 @@ export function LetterPortal() {
     const el = root.current;
     if (!el || !text.current || prefersReducedMotion()) return;
     let ctx: gsap.Context | undefined;
-    let cancelled = false;
+    let canceled = false;
 
     document.fonts.ready.then(() => {
-      if (cancelled || !text.current) return;
+      if (canceled || !text.current) return;
       const box = text.current.getExtentOfChar(TARGET);
       const cx = box.x + box.width / 2;
       const cy = box.y + box.height * 0.55;
@@ -48,7 +48,7 @@ export function LetterPortal() {
       }, el);
     });
     return () => {
-      cancelled = true;
+      canceled = true;
       ctx?.revert();
     };
   }, [size]);

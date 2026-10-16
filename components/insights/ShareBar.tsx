@@ -16,10 +16,10 @@ export function ShareBar({ title }: { title: string }) {
     const text = encodeURIComponent(title);
     window.open(base.replace("{url}", url).replace("{text}", text), "_blank", "noopener,noreferrer,width=640,height=560");
   };
-  const btn = "grid size-12 place-items-center rounded-full border border-ink/15 transition-colors duration-300 hover:bg-ink hover:text-ivory";
+  const btn = "grid size-11 place-items-center rounded-full md:size-12 border border-ink/15 transition-colors duration-300 hover:bg-ink hover:text-ivory";
   return (
-    <div className="sticky top-28 flex gap-2 lg:flex-col">
-      <p className="eyebrow mb-2 hidden text-muted lg:block">Share</p>
+    <div className="flex items-center gap-2 lg:sticky lg:top-28 lg:flex-col lg:items-stretch">
+      <p className="eyebrow mr-2 text-muted lg:mb-2 lg:mr-0">Share</p>
       <button type="button" onClick={() => share("https://www.linkedin.com/sharing/share-offsite/?url={url}")} aria-label="Share on LinkedIn" className={btn}>
         <span className="text-sm font-semibold">in</span>
       </button>

@@ -25,7 +25,7 @@ export function Stats({ eyebrow = "" }: { eyebrow?: string }) {
   }, []);
 
   return (
-    <section ref={root} data-theme="dark" className="-mt-px bg-brand pb-28 pt-20 text-ivory md:pb-40 md:pt-28">
+    <section ref={root} data-theme="dark" className="-mt-px bg-brand pb-28 pt-20 text-ivory md:pb-24 lg:pb-28 md:pt-28">
       <div className="container-x">
         <div className="grid gap-10 md:grid-cols-12">
           <p className="eyebrow text-ivory/50 md:col-span-3">{eyebrow}</p>
@@ -36,7 +36,7 @@ export function Stats({ eyebrow = "" }: { eyebrow?: string }) {
           </div>
         </div>
 
-        <div className="mt-16 grid gap-x-8 gap-y-14 sm:grid-cols-2 md:mt-24 lg:grid-cols-4">
+        <div className="mt-16 grid gap-x-8 gap-y-14 sm:grid-cols-2 md:mt-14 lg:grid-cols-4">
           {stats.map((s) => (
             <div key={s.label}>
               <div className="stat-line h-px w-full bg-ivory/20" />

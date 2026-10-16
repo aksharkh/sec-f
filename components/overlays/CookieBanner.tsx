@@ -74,7 +74,7 @@ export function CookieBanner() {
         </button>
         {!prefs && (
           <button type="button" onClick={() => setPrefs(true)} className="px-3 py-2.5 text-sm text-ivory/60 underline-offset-2 hover:underline">
-            Customise
+            Customize
           </button>
         )}
       </div>

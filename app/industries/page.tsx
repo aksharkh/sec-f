@@ -65,22 +65,22 @@ export default function IndustriesPage() {
                 strands={11}
                 strokeWidth={0.5}
               />
-              <div className="container-x relative flex flex-1 flex-col pb-14 pt-28">
+              <div className="container-x relative flex flex-1 flex-col pb-8 pt-24 md:pb-14 md:pt-28">
                 <div className="flex items-center justify-between">
                   <span className="eyebrow">
                     {String(i + 1).padStart(2, "0")} / {String(industries.length).padStart(2, "0")}
                   </span>
                   <span className={`eyebrow ${light ? "text-ink/50" : "text-ivory/50"}`}>Industry</span>
                 </div>
-                <h2 className="display mt-auto max-w-5xl pt-20 text-[clamp(3rem,9vw,9.5rem)]">{ind.name}</h2>
-                <div className={`mt-12 grid gap-10 border-t pt-8 md:grid-cols-12 ${light ? "border-ink/15" : "border-ivory/20"}`}>
-                  <p className="text-2xl leading-snug tracking-[-0.02em] md:col-span-5">{ind.note}</p>
+                <h2 className="display mt-auto max-w-5xl pt-10 text-[clamp(2.5rem,9vw,9.5rem)] md:pt-20">{ind.name}</h2>
+                <div className={`mt-6 grid gap-5 border-t pt-5 md:mt-12 md:grid-cols-12 md:gap-10 md:pt-8 ${light ? "border-ink/15" : "border-ivory/20"}`}>
+                  <p className="text-lg leading-snug tracking-[-0.02em] md:col-span-5 md:text-2xl">{ind.note}</p>
                   <div className="md:col-span-4">
                     <p className={`eyebrow ${light ? "text-ink/50" : "text-ivory/50"}`}>Typical frameworks</p>
-                    <div className="mt-4 flex flex-wrap gap-2">
+                    <div className="mt-2.5 flex flex-wrap gap-1.5 md:mt-4 md:gap-2">
                       {ind.frameworks.map((f) => {
                         const fw = frameworks.find((x) => x.name === f);
-                        const cls = `rounded-full border px-4 py-2 text-sm transition-colors ${light ? "border-ink/20 hover:bg-ink hover:text-ivory" : "border-ivory/25 hover:bg-ivory hover:text-ink"}`;
+                        const cls = `rounded-full border px-3 py-1.5 text-[0.82rem] transition-colors md:px-4 md:py-2 md:text-sm ${light ? "border-ink/20 hover:bg-ink hover:text-ivory" : "border-ivory/25 hover:bg-ivory hover:text-ink"}`;
                         return fw ? (
                           <Link key={f} href={`/frameworks/${fw.slug}`} data-label={f} className={cls}>
                             {f}
@@ -94,11 +94,11 @@ export default function IndustriesPage() {
                     </div>
                   </div>
                   {story && (
-                    <Link href={`/customers/${story.slug}`} data-label={story.company} className="group md:col-span-3">
-                      <p className={`eyebrow ${light ? "text-ink/50" : "text-ivory/50"}`}>Customer story</p>
-                      <p className="mt-4 text-4xl tracking-[-0.03em]">{story.metrics[0].v}</p>
-                      <p className={`mt-1 text-sm ${light ? "text-ink/60" : "text-ivory/60"}`}>{story.metrics[0].l}</p>
-                      <p className="mt-4 flex items-center gap-2 text-sm font-medium">
+                    <Link href={`/customers/${story.slug}`} data-label={story.company} className={`group grid grid-cols-[auto_1fr] items-center gap-x-4 border-t pt-4 md:col-span-3 md:block md:border-t-0 md:pt-0 ${light ? "border-ink/15" : "border-ivory/20"}`}>
+                      <p className={`eyebrow col-span-2 mb-2 md:mb-0 ${light ? "text-ink/50" : "text-ivory/50"}`}>Customer story</p>
+                      <p className="row-span-2 text-3xl tracking-[-0.03em] md:mt-4 md:text-4xl">{story.metrics[0].v}</p>
+                      <p className={`text-sm leading-snug md:mt-1 ${light ? "text-ink/60" : "text-ivory/60"}`}>{story.metrics[0].l}</p>
+                      <p className="mt-1 flex items-center gap-2 text-sm font-medium md:mt-4">
                         <span className="link-sweep">Read {story.company}</span>
                         <Arrow className="size-3 transition-transform duration-500 group-hover:rotate-45" />
                       </p>
@@ -111,10 +111,10 @@ export default function IndustriesPage() {
         })}
       </StackPanels>
 
-      <section className="bg-ivory py-24 md:py-32">
+      <section className="bg-ivory py-14 md:py-20 lg:py-24">
         <FadeUp className="container-x text-center">
           <p className="eyebrow text-muted">Not listed?</p>
-          <p className="display mx-auto mt-6 max-w-4xl text-[clamp(2.4rem,5vw,5rem)]">
+          <p className="display mx-auto mt-4 max-w-4xl text-[clamp(2rem,5vw,5rem)] md:mt-6">
             If you sell to demanding buyers, <span className="em text-brand">we&apos;ve likely seen it.</span>
           </p>
         </FadeUp>

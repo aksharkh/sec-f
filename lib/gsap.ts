@@ -47,7 +47,7 @@ export const BOOK_EVENT = "sk:book";
 export const SEARCH_EVENT = "sk:search";
 export const TOAST_EVENT = "sk:toast";
 
-export function openBooking(detail?: { framework?: string }) {
+export function openBooking(detail?: { framework?: string; frameworks?: string[]; message?: string }) {
   window.dispatchEvent(new CustomEvent(BOOK_EVENT, { detail }));
 }
 export function openSearch() {

@@ -25,25 +25,25 @@ export default function InsightsPage() {
         intro="Practical guidance from the people doing the work."
         art="insights"
       />
-      <section className="bg-ivory pb-20">
+      <section className="bg-ivory pb-10 md:pb-20">
         <FadeUp className="container-x">
           <ArticleCard a={featured} large />
         </FadeUp>
       </section>
-      <section className="bg-ivory pb-28 md:pb-40">
+      <section className="bg-ivory pb-16 md:pb-24 lg:pb-28">
         <div className="container-x">
           <InsightsBrowser items={rest} tags={articleTags} />
         </div>
       </section>
-      <section data-theme="dark" className="relative overflow-hidden bg-brand py-24 text-ivory md:py-32">
-        <Glyph seed="newsletter" className="pointer-events-none absolute -right-32 -top-32 w-[40rem] text-accent/25" strands={11} />
-        <div className="container-x relative grid gap-10 lg:grid-cols-12 lg:items-end">
+      <section data-theme="dark" className="relative overflow-hidden bg-brand py-14 text-ivory md:py-20 lg:py-24">
+        <Glyph seed="newsletter" className="pointer-events-none absolute -right-20 -top-20 w-[22rem] text-accent/25 md:-right-32 md:-top-32 md:w-[40rem]" strands={11} />
+        <div className="container-x relative grid gap-6 md:gap-10 lg:grid-cols-12 lg:items-end">
           <div className="lg:col-span-7">
             <p className="eyebrow text-accent">The Knot, monthly</p>
-            <p className="display mt-6 text-[clamp(2.6rem,5.5vw,5.5rem)]">
+            <p className="display mt-4 text-[clamp(2.2rem,5.5vw,5.5rem)] md:mt-6">
               Regulatory change, <span className="em">untangled.</span>
             </p>
-            <p className="mt-6 max-w-lg text-lg text-ivory/65">One email a month. What changed, who it affects, and what to do about it.</p>
+            <p className="mt-4 max-w-lg text-base text-ivory/65 md:mt-6 md:text-lg">One email a month. What changed, who it affects, and what to do about it.</p>
           </div>
           <div className="lg:col-span-5">
             <Newsletter />

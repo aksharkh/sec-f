@@ -7,7 +7,7 @@ export function LegalPage({ title, updated, sections }: { title: string; updated
   return (
     <>
       <PageHero eyebrow={`Last updated ${updated}`} title={title} size="lg" crumbs={[{ label: "Home", href: "/" }, { label: title }]} />
-      <section className="bg-ivory pb-28 md:pb-40">
+      <section className="bg-ivory pb-28 md:pb-24 lg:pb-28">
         <div className="container-x grid gap-14 lg:grid-cols-12">
           <aside className="hidden lg:col-span-3 lg:block">
             <StickyToc items={sections.map((s) => ({ id: id(s.h), label: s.h }))} title="Sections" />

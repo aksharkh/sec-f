@@ -2,17 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { frameworkGroups, frameworkCount, navLinks, services } from "@/lib/content";
 import { ScrollTrigger, gsap, onSiteReady, openSearch, prefersReducedMotion } from "@/lib/gsap";
-import { KnotMark } from "@/components/ui/Logo";
+import { SecureKnotsLogo } from "@/components/brand/SecureKnotsLogo";
+import { IndexMenu } from "./IndexMenu";
 
 type Menu = "frameworks" | "services" | null;
 
-export function Wordmark({ className }: { className?: string }) {
+export function Wordmark({ className, onDark }: { className?: string; onDark?: boolean }) {
   return (
     <span className={`inline-flex items-center gap-2.5 ${className ?? ""}`}>
-      <KnotMark className="size-[22px] text-brand" strokeWidth={3.4} />
+      <SecureKnotsLogo className="h-9 w-auto" onDark={onDark} />
       <span className="serif text-[1.45rem] leading-none tracking-[-0.01em]">
         Secure<span className="italic">Knots</span>
       </span>
@@ -52,8 +53,14 @@ export function MeridianNav() {
     const el = bar.current;
     if (!el || prefersReducedMotion()) return;
     gsap.set(el, { yPercent: -100 });
-    return onSiteReady(() => gsap.to(el, { yPercent: 0, duration: 1, delay: 0.2, ease: "expo.out" }));
+    return onSiteReady(() => gsap.to(el, { yPercent: 0, duration: 1, delay: 0.2, ease: "expo.out", clearProps: "transform,translate,rotate,scale" }));
   }, []);
+
+  // Sticky bars further down the page sit under the header while it shows,
+  // and slide up to the top when it hides.
+  useEffect(() => {
+    document.documentElement.style.setProperty("--nav-offset", hidden && !menu && !mobile ? "0px" : "76px");
+  }, [hidden, menu, mobile]);
 
   const touched = useRef(false);
   useEffect(() => {
@@ -62,6 +69,8 @@ export function MeridianNav() {
     if (mobile) window.__lenis?.stop();
     else window.__lenis?.start();
   }, [mobile]);
+
+  const closeIndex = useCallback(() => setMobile(false), []);
 
   const open = (m: Menu) => {
     clearTimeout(timer.current);
@@ -72,17 +81,25 @@ export function MeridianNav() {
   };
 
   const active = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
+  // Full-width bar at the top of the page; a floating pill once you scroll.
+  const pill = scrolled && !mobile;
 
   return (
     <>
       <header
         ref={bar}
         onMouseLeave={close}
-        className={`fixed inset-x-0 top-0 z-50 transition-[transform,background-color,border-color] duration-500 ease-out-expo ${
+        className={`fixed inset-x-0 top-0 z-50 border-b transition-[translate,transform,background-color,border-color,padding] duration-500 ease-out-expo ${
           hidden && !menu && !mobile ? "-translate-y-full" : ""
-        } border-b ${scrolled || menu ? "border-line bg-ivory" : "border-transparent bg-ivory"}`}
+        } ${pill ? "border-transparent bg-transparent px-2 pt-2 md:px-4 md:pt-3" : `bg-ivory ${menu ? "border-line" : "border-transparent"}`}`}
       >
-        <div className="container-x flex h-[76px] items-center justify-between gap-6">
+        <div
+          className={`mx-auto flex items-center justify-between gap-6 border transition-[max-width,height,padding,border-radius,background-color,box-shadow,border-color] duration-500 ease-out-expo ${
+            pill
+              ? "h-14 max-w-[1180px] rounded-full border-line bg-ivory/85 pl-4 pr-2 shadow-[0_18px_50px_-24px_rgb(15_23_41/0.45)] backdrop-blur-xl md:h-[60px] md:pl-6"
+              : "h-[76px] max-w-[1680px] rounded-none border-transparent px-[var(--gutter)]"
+          }`}
+        >
           <Link href="/" aria-label="SecureKnots home" className="relative z-10">
             <Wordmark />
           </Link>
@@ -122,17 +139,20 @@ export function MeridianNav() {
             </button>
             <Link
               href="#book"
-              className="hidden h-10 items-center whitespace-nowrap rounded-full bg-ink px-5 text-[0.85rem] font-medium text-ivory transition-colors duration-500 hover:bg-brand md:flex"
+              className="flex h-9 items-center whitespace-nowrap rounded-full bg-ink px-4 text-[0.8rem] font-medium text-ivory transition-colors duration-500 hover:bg-brand md:h-10 md:px-5 md:text-[0.85rem]"
             >
-              Book a consultation
+              <span className="md:hidden">Book a call</span>
+              <span className="hidden md:inline">Book a consultation</span>
             </Link>
             <button
               type="button"
               onClick={() => setMobile((v) => !v)}
-              aria-label={mobile ? "Close menu" : "Open menu"}
+              aria-label={mobile ? "Close index" : "Open index"}
               aria-expanded={mobile}
-              className="relative z-10 grid size-10 place-items-center rounded-full border border-line lg:hidden"
+              aria-haspopup="dialog"
+              className="relative z-10 flex h-10 items-center gap-3 rounded-full border border-line px-3 text-[0.85rem] transition-colors hover:border-ink lg:pl-4"
             >
+              <span className="hidden lg:inline">Index</span>
               <span className="relative block h-2 w-4">
                 <span className={`absolute left-0 h-px w-4 bg-ink transition-all duration-500 ${mobile ? "top-1 rotate-45" : "top-0"}`} />
                 <span className={`absolute left-0 h-px w-4 bg-ink transition-all duration-500 ${mobile ? "top-1 -rotate-45" : "top-2"}`} />
@@ -144,21 +164,21 @@ export function MeridianNav() {
         {/* Mega panels */}
         <div
           onMouseEnter={() => clearTimeout(timer.current)}
-          className={`hidden overflow-hidden border-t border-line transition-[max-height,opacity] duration-700 ease-out-expo lg:block ${
-            menu ? "max-h-[520px] opacity-100" : "max-h-0 border-transparent opacity-0"
-          }`}
+          className={`hidden overflow-hidden transition-[max-height,opacity] duration-700 ease-out-expo lg:block ${
+            pill ? "mx-auto mt-2 max-w-[1180px] rounded-[1.25rem] border bg-ivory shadow-[0_30px_70px_-30px_rgb(15_23_41/0.45)]" : "border-t"
+          } ${menu ? "max-h-[520px] border-line opacity-100" : "max-h-0 border-transparent opacity-0"}`}
         >
           <div className="container-x py-10">
             {menu === "frameworks" && (
               <div className="grid grid-cols-12 gap-8">
                 <div className="col-span-3">
-                  <p className="serif text-[4rem] leading-none text-ink">{frameworkCount}</p>
+                  <p className="num text-[4rem] text-ink">{frameworkCount}</p>
                   <p className="mt-2 max-w-[16rem] text-sm text-muted">Frameworks delivered as one program. Tested once, mapped everywhere.</p>
                   <Link href="/frameworks" className="link-u mt-8 inline-flex text-sm text-ink">
                     View the full index
                   </Link>
                 </div>
-                <div className="col-span-9 grid grid-cols-5 gap-6">
+                <div className="col-span-9 grid grid-cols-6 gap-5">
                   {frameworkGroups.map((g) => (
                     <div key={g.id}>
                       <p className="eyebrow border-b border-line pb-3 text-muted">{g.name}</p>
@@ -193,37 +213,8 @@ export function MeridianNav() {
         </div>
       </header>
 
-      {/* Mobile menu */}
-      <div
-        className={`fixed inset-0 z-40 flex flex-col bg-ivory transition-[opacity,visibility] duration-500 lg:hidden ${
-          mobile ? "visible opacity-100" : "invisible opacity-0"
-        }`}
-        aria-hidden={!mobile}
-      >
-        <nav aria-label="Mobile" className="container-x mt-24 flex flex-1 flex-col">
-          {navLinks.map((l, i) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="serif flex items-baseline justify-between border-b border-line py-4 text-[clamp(2.2rem,9vw,3.4rem)] leading-none"
-              style={{
-                transition: "transform .7s var(--ease-out), opacity .7s var(--ease-out)",
-                transitionDelay: mobile ? `${0.05 + i * 0.05}s` : "0s",
-                transform: mobile ? "none" : "translateY(24px)",
-                opacity: mobile ? 1 : 0,
-              }}
-            >
-              {l.label}
-              <span className="serif text-base italic text-muted">0{i + 1}</span>
-            </Link>
-          ))}
-        </nav>
-        <div className="container-x pb-10 pt-6">
-          <Link href="#book" onClick={() => setMobile(false)} className="flex h-13 items-center justify-center rounded-full bg-ink text-sm font-medium text-ivory">
-            Book a consultation
-          </Link>
-        </div>
-      </div>
+      {/* Slide-out index (also the mobile menu) */}
+      <IndexMenu open={mobile} onClose={closeIndex} />
     </>
   );
 }

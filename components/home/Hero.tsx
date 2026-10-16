@@ -17,7 +17,7 @@ declare global {
 
 /**
  * Pinned hero. Scrolling pushes the camera into the knot while a navy portal
- * opens from the knot's centre and swallows the screen, handing off
+ * opens from the knot's center and swallows the screen, handing off
  * seamlessly to the (navy) section that follows.
  */
 export function Hero() {

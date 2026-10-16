@@ -54,7 +54,7 @@ export function ThemeLab() {
     <div className="fixed bottom-4 right-4 z-[75] flex flex-col items-end gap-2">
       {open && (
         <div className="w-64 animate-[fadeUp_0.4s_var(--ease-out)] rounded-2xl bg-ink p-3 text-ivory shadow-2xl">
-          <p className="eyebrow px-2 pb-2 pt-1 text-ivory/50">Colour lab</p>
+          <p className="eyebrow px-2 pb-2 pt-1 text-ivory/50">Color lab</p>
           {palettes.map((p, i) => (
             <button
               key={p.name}
@@ -76,7 +76,7 @@ export function ThemeLab() {
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        aria-label="Colour lab"
+        aria-label="Color lab"
         className="grid size-12 place-items-center rounded-full bg-ink text-lg text-ivory shadow-xl"
       >
         {open ? "×" : "◐"}

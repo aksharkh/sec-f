@@ -33,36 +33,36 @@ export default function CareersPage() {
         art="careers"
       />
 
-      <section className="bg-ivory pb-28 md:pb-40">
-        <div className="container-x grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="bg-ivory pb-16 md:pb-24 lg:pb-28">
+        <div className="container-x grid grid-cols-2 gap-2 md:gap-4 lg:grid-cols-4">
           {perks.map((p, i) => (
-            <FadeUp key={p.t} delay={i * 0.06} className="group relative min-h-72 overflow-hidden rounded-[1.75rem] bg-paper p-7">
-              <Glyph seed={p.t} className="pointer-events-none absolute -bottom-12 -right-12 w-56 text-brand/10 transition-transform duration-[1.4s] ease-out-expo group-hover:rotate-45" />
+            <FadeUp key={p.t} delay={i * 0.06} className="group relative overflow-hidden rounded-[1.25rem] bg-paper p-4 md:min-h-72 md:rounded-[1.75rem] md:p-7">
+              <Glyph seed={p.t} className="pointer-events-none absolute -bottom-10 -right-10 w-36 md:-bottom-12 md:-right-12 md:w-56 text-brand/10 transition-transform duration-[1.4s] ease-out-expo group-hover:rotate-45" />
               <p className="eyebrow text-brand-3">0{i + 1}</p>
-              <p className="relative mt-20 text-2xl tracking-[-0.02em]">{p.t}</p>
-              <p className="relative mt-3 text-muted">{p.d}</p>
+              <p className="relative mt-6 text-[1.05rem] leading-tight tracking-[-0.02em] md:mt-12 md:text-2xl">{p.t}</p>
+              <p className="relative mt-1.5 text-[0.8rem] leading-snug text-muted md:mt-3 md:text-base">{p.d}</p>
             </FadeUp>
           ))}
         </div>
       </section>
 
-      <section id="roles" data-theme="dark" className="scroll-mt-10 bg-ink py-28 text-ivory md:py-40">
+      <section id="roles" data-theme="dark" className="scroll-mt-10 bg-ink py-16 text-ivory md:py-24 lg:py-28">
         <div className="container-x">
           <SectionHead dark eyebrow="Open roles" title={<>{roles.length} ways <span className="em text-accent">in.</span></>} />
-          <ul className="mt-16 border-t border-ivory/15 md:mt-24">
+          <ul className="mt-8 border-t border-ivory/15 md:mt-14">
             {roles.map((r) => (
               <li key={r.title}>
                 <a
                   href={`mailto:${contact.email}?subject=${encodeURIComponent(`Application: ${r.title}`)}`}
                   data-cursor="Apply"
-                  className="group grid gap-3 border-b border-ivory/15 py-8 transition-colors duration-500 hover:bg-ivory/[0.03] md:grid-cols-12 md:items-center"
+                  className="group grid grid-cols-2 gap-x-3 gap-y-1.5 border-b border-ivory/15 py-5 transition-colors duration-500 hover:bg-ivory/[0.03] md:grid-cols-12 md:items-center md:gap-3 md:py-8"
                 >
-                  <span className="text-[clamp(1.6rem,3vw,2.8rem)] tracking-[-0.03em] transition-transform duration-700 ease-out-expo group-hover:translate-x-3 md:col-span-6">{r.title}</span>
+                  <span className="col-span-2 text-[clamp(1.35rem,3vw,2.8rem)] leading-tight tracking-[-0.03em] transition-transform duration-700 ease-out-expo group-hover:translate-x-3 md:col-span-6">{r.title}</span>
                   <span className="eyebrow text-ivory/50 md:col-span-2">{r.team}</span>
-                  <span className="text-ivory/60 md:col-span-2">{r.location}</span>
-                  <span className="flex items-center justify-between gap-4 md:col-span-2 md:justify-end">
+                  <span className="text-right text-sm text-ivory/60 md:col-span-2 md:text-left md:text-base">{r.location}</span>
+                  <span className="col-span-2 flex items-center justify-between gap-4 md:col-span-2 md:justify-end">
                     <span className="eyebrow text-accent">{r.type}</span>
-                    <span className="grid size-11 place-items-center rounded-full border border-ivory/15 transition-all duration-500 group-hover:rotate-45 group-hover:border-accent group-hover:bg-accent group-hover:text-ink">
+                    <span className="grid size-9 place-items-center rounded-full border border-ivory/15 transition-all md:size-11 duration-500 group-hover:rotate-45 group-hover:border-accent group-hover:bg-accent group-hover:text-ink">
                       <Arrow className="size-3" />
                     </span>
                   </span>
@@ -70,7 +70,7 @@ export default function CareersPage() {
               </li>
             ))}
           </ul>
-          <p className="mt-12 text-lg text-ivory/60">
+          <p className="mt-8 text-base text-ivory/60 md:mt-12 md:text-lg">
             Don&apos;t see your role?{" "}
             <a href={`mailto:${contact.email}?subject=General%20application`} className="text-ivory underline underline-offset-4">
               Tell us what you&apos;d build here.

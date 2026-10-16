@@ -12,6 +12,7 @@ import { CookieBanner } from "@/components/overlays/CookieBanner";
 import { Toaster } from "@/components/overlays/Toaster";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { InteractiveFX } from "@/components/providers/InteractiveFX";
+import { frameworkCount } from "@/lib/content";
 
 const sans = Geist({
   variable: "--font-geist",
@@ -46,7 +47,7 @@ export const metadata: Metadata = {
     type: "website",
     siteName: "SecureKnots",
     title: "SecureKnots | Many frameworks. One secure knot.",
-    description: "Assess once, comply to many. Practitioner-led compliance across 29 frameworks.",
+    description: `Assess once, comply to many. Practitioner-led audit readiness across ${frameworkCount} frameworks and standards.`,
   },
   twitter: { card: "summary_large_image" },
 };

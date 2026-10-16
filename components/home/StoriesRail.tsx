@@ -69,16 +69,16 @@ export function StoriesRail({ eyebrow = "Customer stories" }: { eyebrow?: string
   };
 
   return (
-    <section className="overflow-hidden bg-ivory py-28 md:py-40">
+    <section className="overflow-hidden bg-ivory py-16 md:py-24 lg:py-28">
       <div className="container-x">
-        <div className="grid gap-10 md:grid-cols-12">
+        <div className="grid gap-4 md:grid-cols-12 md:gap-10">
           <p className="eyebrow text-muted md:col-span-3">{eyebrow}</p>
           <div className="md:col-span-9">
-            <Reveal as="h2" className="display text-[clamp(2.6rem,6.5vw,7rem)]">
+            <Reveal as="h2" className="display text-[clamp(2.3rem,6.5vw,7rem)]">
               Proof, <span className="em text-brand">not promises.</span>
             </Reveal>
-            <div className="mt-10 flex flex-wrap items-center justify-between gap-6">
-              <p className="max-w-md text-lg text-muted">
+            <div className="mt-5 flex flex-wrap items-center justify-between gap-4 md:mt-10 md:gap-6">
+              <p className="max-w-md text-base text-muted md:text-lg">
                 How teams across healthcare, fintech, defense and AI tied their frameworks into one program.
               </p>
               <div className="flex items-center gap-3">
@@ -97,7 +97,7 @@ export function StoriesRail({ eyebrow = "Customer stories" }: { eyebrow?: string
       <div
         ref={rail}
         data-lenis-prevent-wheel
-        className="mt-14 flex snap-x snap-mandatory gap-5 overflow-x-auto px-[var(--gutter)] pb-4 [scrollbar-width:none] md:mt-20 [&::-webkit-scrollbar]:hidden"
+        className="mt-8 flex snap-x snap-mandatory scroll-px-[var(--gutter)] gap-3 overflow-x-auto px-[var(--gutter)] pb-4 md:gap-5 [scrollbar-width:none] md:mt-12 [&::-webkit-scrollbar]:hidden"
         data-cursor="Drag"
       >
         {stories.map((s) => (
@@ -108,7 +108,7 @@ export function StoriesRail({ eyebrow = "Customer stories" }: { eyebrow?: string
         <div className="w-[var(--gutter)] shrink-0" />
       </div>
 
-      <div className="container-x mt-8">
+      <div className="container-x mt-5 md:mt-8">
         <div className="h-px w-full bg-ink/10">
           <div className="h-px origin-left bg-ink transition-transform duration-300" style={{ transform: `scaleX(${Math.max(0.12, progress)})` }} />
         </div>
@@ -123,7 +123,7 @@ function RailBtn({ onClick, label, flip }: { onClick: () => void; label: string;
       type="button"
       onClick={onClick}
       aria-label={label}
-      className="grid size-12 place-items-center rounded-full border border-ink/15 transition-colors duration-500 hover:bg-ink hover:text-ivory"
+      className="grid size-10 place-items-center rounded-full border border-ink/15 transition-colors duration-500 hover:bg-ink hover:text-ivory md:size-12"
     >
       <svg viewBox="0 0 16 16" className={`size-4 ${flip ? "rotate-180" : ""}`} fill="none">
         <path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" />

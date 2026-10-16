@@ -23,9 +23,9 @@ export function FrameworkExplorer({ items }: { items: Framework[] }) {
   const tabs = [{ id: "all", name: "All", n: items.length }, ...frameworkGroups.map((g) => ({ id: g.id, name: g.name, n: g.items.length }))];
 
   return (
-    <section className="bg-ivory pb-28 md:pb-40">
+    <section className="bg-ivory pb-16 md:pb-24 lg:pb-28">
       <div className="container-x">
-        <div className="sticky top-24 z-30 -mx-2 flex flex-col gap-3 rounded-[1.75rem] border border-line bg-ivory/85 p-2 backdrop-blur-xl lg:flex-row lg:items-center lg:justify-between">
+        <div className="sticky top-[calc(var(--nav-offset,76px)+6px)] z-30 -mx-2 transition-[top] duration-500 flex flex-col gap-2 rounded-[1.75rem] border border-line bg-ivory/85 p-1.5 backdrop-blur-xl md:top-[calc(var(--nav-offset,76px)+20px)] md:gap-3 md:p-2 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex gap-1 overflow-x-auto [scrollbar-width:none]" role="tablist" aria-label="Framework categories">
             {tabs.map((t) => (
               <button
@@ -33,7 +33,7 @@ export function FrameworkExplorer({ items }: { items: Framework[] }) {
                 role="tab"
                 aria-selected={group === t.id}
                 onClick={() => setGroup(t.id)}
-                className={`flex shrink-0 items-center gap-2 rounded-full px-4 py-2.5 text-sm transition-colors duration-300 ${
+                className={`flex shrink-0 items-center gap-2 rounded-full px-3 py-2 text-[0.82rem] transition-colors duration-300 md:px-4 md:py-2.5 md:text-sm ${
                   group === t.id ? "bg-ink text-ivory" : "hover:bg-ink/5"
                 }`}
               >
@@ -52,16 +52,16 @@ export function FrameworkExplorer({ items }: { items: Framework[] }) {
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search frameworks"
               aria-label="Search frameworks"
-              className="h-11 w-full rounded-full bg-ink/5 pl-11 pr-4 text-sm outline-none focus:bg-ink/10 lg:w-72"
+              className="h-10 w-full rounded-full bg-ink/5 pl-11 pr-4 text-sm outline-none focus:bg-ink/10 md:h-11 lg:w-72"
             />
           </label>
         </div>
 
-        <p className="eyebrow mt-10 text-muted" aria-live="polite">
+        <p className="eyebrow mt-6 text-muted md:mt-10" aria-live="polite">
           {list.length} {list.length === 1 ? "framework" : "frameworks"}
         </p>
 
-        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-4 grid grid-cols-2 gap-2 md:mt-6 md:gap-3 lg:grid-cols-3">
           {list.map((f, i) => (
             <Link
               key={f.slug}
@@ -70,25 +70,25 @@ export function FrameworkExplorer({ items }: { items: Framework[] }) {
               data-fx
               data-label={f.name}
               style={{ animationDelay: `${Math.min(i, 12) * 40}ms` }}
-              className="group relative flex min-h-72 animate-[fadeUp_0.7s_var(--ease-out)_backwards] flex-col justify-between overflow-hidden rounded-[1.75rem] border border-line bg-paper/60 p-7 transition-colors duration-700 ease-out-expo hover:border-brand hover:bg-brand hover:text-ivory"
+              className="group relative flex animate-[fadeUp_0.7s_var(--ease-out)_backwards] flex-col justify-between gap-5 overflow-hidden rounded-[1.75rem] border border-line bg-paper/60 p-4 transition-colors md:min-h-72 md:gap-0 md:p-7 duration-700 ease-out-expo hover:border-brand hover:bg-brand hover:text-ivory"
             >
               <Glyph
                 seed={f.slug}
                 className="pointer-events-none absolute -bottom-1/3 -right-1/4 w-[85%] text-accent opacity-0 transition-all duration-1000 ease-out-expo group-hover:rotate-12 group-hover:opacity-50"
                 strands={7}
               />
-              <div className="relative flex items-start justify-between gap-4">
-                <span className="eyebrow text-muted transition-colors group-hover:text-accent">{f.group}</span>
-                <span className="grid size-10 place-items-center rounded-full border border-current/15 transition-transform duration-700 ease-out-expo group-hover:rotate-45 group-hover:border-accent group-hover:bg-accent group-hover:text-ink">
+              <div className="relative flex items-start justify-between gap-2 md:gap-4">
+                <span className="eyebrow text-[0.56rem] leading-snug text-muted transition-colors group-hover:text-accent md:text-[0.7rem]">{f.group}</span>
+                <span className="grid size-7 shrink-0 place-items-center md:size-10 rounded-full border border-current/15 transition-transform duration-700 ease-out-expo group-hover:rotate-45 group-hover:border-accent group-hover:bg-accent group-hover:text-ink">
                   <Arrow className="size-3" />
                 </span>
               </div>
               <div className="relative">
-                <p className="display text-[clamp(2.2rem,3.4vw,3.2rem)]">{f.name}</p>
-                <p className="mt-2 line-clamp-1 text-sm text-muted transition-colors group-hover:text-ivory/60">{f.full}</p>
-                <div className="mt-5 flex gap-4 border-t border-current/10 pt-4 text-sm">
+                <p className="display text-[1.45rem] md:text-[clamp(2.2rem,3.4vw,3.2rem)]">{f.name}</p>
+                <p className="mt-1.5 line-clamp-2 text-[0.74rem] leading-snug text-muted md:mt-2 md:line-clamp-1 md:text-sm transition-colors group-hover:text-ivory/60">{f.full}</p>
+                <div className="mt-3 flex flex-col gap-0.5 border-t border-current/10 pt-2.5 text-[0.72rem] leading-snug md:mt-5 md:flex-row md:gap-4 md:pt-4 md:text-sm">
                   <span className="text-muted transition-colors group-hover:text-ivory/60">{f.timeline}</span>
-                  <span className="ml-auto text-muted transition-colors group-hover:text-ivory/60">{f.issuer}</span>
+                  <span className="text-muted md:ml-auto transition-colors group-hover:text-ivory/60">{f.issuer}</span>
                 </div>
               </div>
             </Link>

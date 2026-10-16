@@ -6,7 +6,7 @@ import { controlDomains, frameworkGroups, overlapFrameworks, type DomainId } fro
 /**
  * Coverage matrix: every framework (column) against every control domain
  * (row). Cells a framework covers are lit; an orange wave travels through
- * them. `collapse` (0..1) slides every column into the centre, showing the
+ * them. `collapse` (0..1) slides every column into the center, showing the
  * union: one control set.
  *
  * Mapping for the eight frameworks in `overlapFrameworks` is the same
@@ -19,7 +19,8 @@ const groupScope: Record<string, DomainId[]> = {
   government: ["gov", "risk", "access", "asset", "crypto", "ops", "change", "vendor", "ir", "hr", "physical", "cui"],
   privacy: ["gov", "risk", "access", "crypto", "vendor", "ir", "privacy", "asset"],
   financial: ["gov", "risk", "access", "crypto", "ops", "change", "vendor", "ir", "bcdr", "cardholder"],
-  management: ["gov", "risk", "asset", "ops", "bcdr", "hr", "vendor"],
+  management: ["gov", "risk", "asset", "ops", "bcdr", "hr", "vendor", "physical"],
+  records: ["gov", "risk", "asset", "crypto", "ops", "vendor", "hr", "physical", "privacy"],
 };
 
 const columns = frameworkGroups.flatMap((g) =>
@@ -92,7 +93,7 @@ export function CoverageMatrix({
       // Draw right-to-left so column 0 (which shows the union) ends up on top.
       for (let i = COLS - 1; i >= 0; i--) {
         const col = columns[i];
-        // Collapse: every column slides into the centre.
+        // Collapse: every column slides into the center.
         const x = ox + i * pitch + (center - (ox + i * pitch)) * e;
         const colFade = i === 0 ? 1 : 1 - e * 0.9;
         for (let j = 0; j < ROWS; j++) {
@@ -138,8 +139,12 @@ export function CoverageMatrix({
       if (col >= 0 && col < COLS && row >= 0 && row < ROWS) {
         hover.col = col;
         hover.row = row;
-        const on = columns[col].domains.has(controlDomains[row].id);
-        onHover?.(`${columns[col].name} × ${controlDomains[row].name}${on ? "" : " (not in scope)"}`);
+        const id = controlDomains[row].id;
+        const on = columns[col].domains.has(id);
+        const shared = columns.filter((cc) => cc.domains.has(id)).length - (on ? 1 : 0);
+        onHover?.(
+          `${columns[col].name} × ${controlDomains[row].name}: ${on ? `in scope, shared with ${shared} other frameworks` : `not in scope (${shared} frameworks cover it)`}`,
+        );
       } else leave();
     };
     const leave = () => {
@@ -164,7 +169,7 @@ export function CoverageMatrix({
     };
   }, [collapse, onHover, onDark]);
 
-  return <canvas ref={ref} className={className} role="img" aria-label="Coverage matrix of 29 frameworks against 16 control domains" />;
+  return <canvas ref={ref} className={className} role="img" aria-label={`Coverage matrix of ${columns.length} frameworks against ${controlDomains.length} control domains`} />;
 }
 
 export const matrixStats = {

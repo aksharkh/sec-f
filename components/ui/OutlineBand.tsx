@@ -5,7 +5,7 @@ import { gsap, prefersReducedMotion } from "@/lib/gsap";
 
 /**
  * Two rows of giant outlined type that slide in opposite directions with
- * scroll, while a solid fill wipes across each word as it passes centre.
+ * scroll, while a solid fill wipes across each word as it passes center.
  */
 export function OutlineBand({
   rows = [

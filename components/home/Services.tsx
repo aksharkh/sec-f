@@ -36,7 +36,7 @@ export function Services() {
   }, []);
 
   return (
-    <section ref={root} className="relative bg-ivory pb-28 pt-28 md:pb-40 md:pt-40">
+    <section ref={root} className="relative bg-ivory pb-28 pt-28 md:pb-24 lg:pb-28 md:pt-24 lg:pt-28">
       <div className="container-x">
         <div className="grid gap-10 md:grid-cols-12">
           <p className="eyebrow text-muted md:col-span-3">What we do</p>
@@ -47,7 +47,7 @@ export function Services() {
           </div>
         </div>
 
-        <div className="mt-16 md:mt-24">
+        <div className="mt-16 md:mt-14">
           {services.map((s, i) => {
             const t = themes[i % themes.length];
             return (

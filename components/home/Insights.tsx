@@ -6,7 +6,7 @@ import { ArticleCard } from "@/components/insights/ArticleCard";
 
 export function Insights({ eyebrow = "" }: { eyebrow?: string }) {
   return (
-    <section className="bg-ivory py-28 md:py-40">
+    <section className="bg-ivory py-28 md:py-24 lg:py-28">
       <div className="container-x">
         <div className="flex flex-wrap items-end justify-between gap-8">
           <div>
@@ -21,7 +21,7 @@ export function Insights({ eyebrow = "" }: { eyebrow?: string }) {
           </Link>
         </div>
 
-        <div className="mt-14 grid gap-x-6 gap-y-14 md:mt-20 md:grid-cols-3">
+        <div className="mt-14 grid gap-x-6 gap-y-14 md:mt-12 md:grid-cols-3">
           {articles.slice(0, 3).map((a, i) => (
             <FadeUp key={a.slug} delay={i * 0.1}>
               <ArticleCard a={a} />

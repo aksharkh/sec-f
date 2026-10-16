@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { industries } from "@/lib/content";
 import { gsap } from "@/lib/gsap";
 import { Reveal } from "@/components/ui/Reveal";
 import { Arrow } from "@/components/ui/Button";
 
-export function Industries({ eyebrow = "" }: { eyebrow?: string }) {
+export function Industries({ eyebrow = "" }: { eyebrow?: ReactNode }) {
   const [active, setActive] = useState<number | null>(null);
   const card = useRef<HTMLDivElement>(null);
   const list = useRef<HTMLDivElement>(null);
@@ -31,35 +31,37 @@ export function Industries({ eyebrow = "" }: { eyebrow?: string }) {
   const current = active !== null ? industries[active] : null;
 
   return (
-    <section data-theme="dark" className="relative bg-ink-2 py-28 text-ivory md:py-40">
+    <section id="industries" data-rail="Industries" data-theme="dark" className="relative bg-ink-2 py-16 text-ivory md:py-24 lg:py-28">
       <div className="container-x">
-        <div className="grid gap-10 md:grid-cols-12">
-          <p className="eyebrow text-ivory/45 md:col-span-3">{eyebrow}</p>
+        <div className="grid gap-5 md:grid-cols-12 md:gap-10">
+          <div className="eyebrow text-ivory/45 md:col-span-3">{eyebrow}</div>
           <div className="md:col-span-9">
-            <Reveal as="h2" className="display text-[clamp(2.6rem,6.5vw,7rem)]">
+            <Reveal as="h2" className="display text-[clamp(2.3rem,6.5vw,7rem)]">
               Built for teams that sell to <span className="em text-accent">demanding buyers.</span>
             </Reveal>
           </div>
         </div>
 
-        <div ref={list} className="relative mt-16 md:mt-24" onPointerLeave={() => setActive(null)}>
+        <div ref={list} className="relative mt-8 md:mt-14" onPointerLeave={() => setActive(null)}>
         <ul className="border-t border-line-dark">
           {industries.map((ind, i) => (
             <li key={ind.name} onPointerEnter={() => setActive(i)}>
               <Link
                 href="/industries"
                 data-cursor="hide"
-                className="group grid grid-cols-12 items-center gap-4 border-b border-line-dark py-7 md:py-9"
+                className="group grid grid-cols-12 items-center gap-x-3 gap-y-2.5 border-b border-line-dark py-5 md:gap-4 md:py-9"
               >
-                <span className="eyebrow col-span-2 text-ivory/35 md:col-span-1">0{i + 1}</span>
+                <span className="eyebrow col-span-2 self-start pt-2 text-ivory/35 md:col-span-1 md:self-auto md:pt-0">0{i + 1}</span>
                 <span
-                  className={`col-span-10 text-[clamp(1.9rem,4.4vw,4.4rem)] leading-none tracking-[-0.04em] transition-all duration-700 ease-out-expo md:col-span-6 ${
+                  className={`col-span-10 text-[clamp(1.7rem,4.4vw,4.4rem)] leading-none tracking-[-0.04em] transition-all duration-700 ease-out-expo md:col-span-6 ${
                     active !== null && active !== i ? "text-ivory/25" : "text-ivory"
                   } group-hover:translate-x-4`}
                 >
                   {ind.name}
                 </span>
-                <span className="col-span-12 flex flex-wrap gap-1.5 md:col-span-4 md:col-start-8 md:justify-end">
+                {/* No hover on touch screens: the "why it matters" note sits inline */}
+                <span className="col-span-10 col-start-3 text-[0.9rem] leading-snug text-ivory/60 md:hidden">{ind.note}</span>
+                <span className="col-span-10 col-start-3 flex flex-wrap gap-1.5 md:col-span-4 md:col-start-8 md:justify-end">
                   {ind.frameworks.map((f) => (
                     <span key={f} className="eyebrow rounded-full border border-ivory/12 px-2.5 py-1 text-[0.62rem] text-ivory/55">
                       {f}

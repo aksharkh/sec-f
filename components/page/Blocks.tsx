@@ -16,13 +16,13 @@ export function SectionHead({
   className?: string;
 }) {
   return (
-    <div className={`grid gap-8 md:grid-cols-12 ${className ?? ""}`}>
+    <div className={`grid gap-4 md:grid-cols-12 md:gap-8 ${className ?? ""}`}>
       <p className={`eyebrow md:col-span-3 ${dark ? "text-ivory/50" : "text-muted"}`}>{eyebrow}</p>
       <div className="md:col-span-9">
-        <Reveal as="h2" className="display text-[clamp(2.4rem,5.8vw,6rem)]">
+        <Reveal as="h2" className="display text-[clamp(2.15rem,5.8vw,6rem)]">
           {title}
         </Reveal>
-        {intro && <div className={`mt-8 max-w-2xl text-lg leading-relaxed ${dark ? "text-ivory/65" : "text-muted"}`}>{intro}</div>}
+        {intro && <div className={`mt-5 max-w-2xl text-base leading-relaxed md:mt-8 md:text-lg ${dark ? "text-ivory/65" : "text-muted"}`}>{intro}</div>}
       </div>
     </div>
   );

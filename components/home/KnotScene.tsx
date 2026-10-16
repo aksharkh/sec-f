@@ -146,7 +146,7 @@ const fragmentShader = /* glsl */ `
     // warm ivory rim picks the strands off the paper background
     col = mix(col, vec3(0.96, 0.94, 0.88), fres * 0.35 * (1.0 - uAccent));
 
-    // light pulse travelling along each strand once the knot is tied
+    // light pulse traveling along each strand once the knot is tied
     float travel = fract(vUv.x * 2.0 - uTime * 0.08 + uOffset);
     float pulse = smoothstep(0.0, 0.02, travel) * (1.0 - smoothstep(0.02, 0.09, travel));
     col = mix(col, vec3(0.5, 0.7, 1.0), pulse * vProgress * (1.0 - uAccent) * 0.9);
@@ -178,7 +178,7 @@ export function KnotScene({ className }: Props) {
     const reduce = prefersReducedMotion();
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor(0x000000, 0);
-    // ShaderMaterial skips colour-space conversion, so colours stay in display (sRGB) space.
+    // ShaderMaterial skips color-space conversion, so colors stay in display (sRGB) space.
     THREE.ColorManagement.enabled = false;
     host.appendChild(renderer.domElement);
     renderer.domElement.style.width = "100%";
@@ -224,7 +224,7 @@ export function KnotScene({ className }: Props) {
     });
 
     // Layout: fit the knot to the visible frustum. Right-aligned on desktop,
-    // centred and raised on mobile.
+    // centered and raised on mobile.
     const target = { x: 0, y: 0 };
     const layout = () => {
       const w = host.clientWidth;
@@ -276,7 +276,7 @@ export function KnotScene({ className }: Props) {
       if (!visible) return;
       timer.update();
       const t = timer.getElapsed();
-      // Hero scroll progress (0 → 1) drives a fly-through into the knot's centre.
+      // Hero scroll progress (0 → 1) drives a fly-through into the knot's center.
       const hero = window.__skHero ?? 0;
       const dive = hero * hero * (3 - 2 * hero);
 

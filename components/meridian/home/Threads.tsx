@@ -5,7 +5,7 @@ import { frameworkGroups } from "@/lib/content";
 import { gsap, onSiteReady, prefersReducedMotion } from "@/lib/gsap";
 
 const W = 1600;
-const H = 500;
+const H = 580;
 const X0 = 186; // where threads begin, right of the labels
 const XK = 1060; // where they are tied into one strand
 const YC = H / 2;
@@ -23,8 +23,8 @@ const threads = names.map((name, i) => {
   };
 });
 
-// A handful of threads carry a travelling pulse, "evidence" moving through.
-const PULSES = [2, 7, 11, 16, 21, 26];
+// A handful of threads carry a traveling pulse, "evidence" moving through.
+const PULSES = [2, 8, 13, 19, 25, 31];
 
 /**
  * Hero figure: every framework is a thread. They leave their labels, bend
@@ -48,7 +48,7 @@ export function Threads({ className }: { className?: string }) {
         gsap
           .timeline({ delay: 0.6 })
           .to(".thr-label", { autoAlpha: 1, duration: 0.8, stagger: 0.018, ease: "power2.out" }, 0)
-          .to(".thr-line", { strokeDashoffset: 0, duration: 2.2, stagger: { each: 0.025, from: "edges" }, ease: "power3.inOut" }, 0.1)
+          .to(".thr-line", { strokeDashoffset: 0, duration: 2.2, stagger: { each: 0.025, from: "edges" }, ease: "power3.inOut", autoRound: false }, 0.1)
           .to(".thr-knot", { autoAlpha: 1, duration: 0.6 }, 1.9)
           .to(".thr-strand", { scaleX: 1, duration: 1.4, ease: "expo.inOut" }, 1.9)
           .to(".thr-note", { autoAlpha: 1, duration: 0.8, stagger: 0.15 }, 2.2)
@@ -139,10 +139,143 @@ export function Threads({ className }: { className?: string }) {
         </text>
       </g>
       <g className="thr-note pointer-events-none" style={{ font: "500 11px var(--font-geist), sans-serif", letterSpacing: "0.14em" }}>
-        <text x={W - 8} y={YC + 40} textAnchor="end" fill="var(--muted)">
-          TESTED ONCE · REPORTED TO MANY
+        <text x={XK + 12} y={YC + 40} fill="var(--muted)">
+          TESTED ONCE
         </text>
       </g>
+    </svg>
+  );
+}
+
+/* ───────── Phone version: the same figure, composed for a portrait screen ─────────
+   Labels stand along the top like book spines, every thread falls and is tied
+   into one knot, and the single strand drops straight into the readiness card
+   below. Tap a label or thread to trace it. */
+const VW = 360;
+const VH = 430;
+const LB = 112; // baseline of the label band
+const KX = VW / 2;
+const KY = 336;
+
+const vthreads = names.map((name, i) => {
+  const x = 10 + (i * (VW - 20)) / (N - 1);
+  const off = (i - (N - 1) / 2) * 0.32;
+  const y0 = LB + 7;
+  return {
+    name,
+    x,
+    d: `M${x.toFixed(1)} ${y0} C${x.toFixed(1)} ${y0 + 112} ${(KX + off).toFixed(1)} ${KY - 118} ${(KX + off).toFixed(1)} ${KY} L${(KX + off).toFixed(1)} ${VH}`,
+  };
+});
+
+export function ThreadsVertical({ className }: { className?: string }) {
+  const root = useRef<SVGSVGElement>(null);
+  const [hi, setHi] = useState<number | null>(null);
+
+  useEffect(() => {
+    const el = root.current;
+    if (!el || prefersReducedMotion()) return;
+    const ctx = gsap.context(() => {
+      gsap.set(".tv-line", { strokeDasharray: 1, strokeDashoffset: 1 });
+      gsap.set(".tv-label, .tv-knot, .tv-note, .tv-pulse", { autoAlpha: 0 });
+      gsap.set(".tv-strand", { scaleY: 0, transformOrigin: "50% 0%" });
+    }, el);
+    const cancel = onSiteReady(() => {
+      ctx.add(() => {
+        gsap
+          .timeline({ delay: 0.6 })
+          .to(".tv-label", { autoAlpha: 1, duration: 0.6, stagger: 0.015, ease: "power2.out" }, 0)
+          .to(".tv-line", { strokeDashoffset: 0, duration: 2, stagger: { each: 0.02, from: "edges" }, ease: "power3.inOut", autoRound: false }, 0.1)
+          .to(".tv-knot", { autoAlpha: 1, duration: 0.6 }, 1.8)
+          .to(".tv-strand", { scaleY: 1, duration: 1.1, ease: "expo.inOut" }, 1.8)
+          .to(".tv-note", { autoAlpha: 1, duration: 0.8, stagger: 0.15 }, 2.1)
+          .to(".tv-pulse", { autoAlpha: 1, duration: 1 }, 2.5);
+      });
+    });
+    return () => {
+      cancel();
+      ctx.revert();
+    };
+  }, []);
+
+  const pick = (i: number) => setHi((h) => (h === i ? null : i));
+
+  return (
+    <svg ref={root} viewBox={`0 0 ${VW} ${VH}`} className={className} role="img" aria-label={`${N} compliance frameworks converging into one control set`}>
+      <defs>
+        <linearGradient id="tv-fade" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stopColor="var(--ink)" stopOpacity="0.22" />
+          <stop offset="0.7" stopColor="var(--ink)" stopOpacity="0.5" />
+          <stop offset="1" stopColor="var(--ink)" stopOpacity="0.85" />
+        </linearGradient>
+      </defs>
+
+      {vthreads.map((t, i) => (
+        <g key={t.name} onClick={() => pick(i)} className="cursor-pointer">
+          {/* label + thread hit areas, generous for fingers */}
+          <rect x={t.x - 4.8} y={0} width={9.6} height={LB + 6} fill="transparent" />
+          <text
+            x={t.x}
+            y={LB}
+            dx="0.32em"
+            transform={`rotate(-90 ${t.x} ${LB})`}
+            className="tv-label"
+            style={{ font: "400 8.6px var(--font-geist), sans-serif", fill: hi === i ? "var(--brand)" : "var(--muted)", transition: "fill .3s" }}
+          >
+            {t.name}
+          </text>
+          <path d={t.d} stroke="transparent" strokeWidth={9} fill="none" />
+          <path
+            d={t.d}
+            pathLength={1}
+            className="tv-line"
+            fill="none"
+            stroke={hi === i ? "var(--brand)" : "url(#tv-fade)"}
+            strokeWidth={hi === i ? 1.5 : 0.7}
+            style={{ transition: "stroke-width .3s" }}
+          />
+        </g>
+      ))}
+
+      {PULSES.map((i, n) => (
+        <path
+          key={i}
+          d={vthreads[i].d}
+          pathLength={1600}
+          className="tv-pulse thread-pulse pointer-events-none"
+          fill="none"
+          stroke="var(--brand)"
+          strokeWidth={1.5}
+          strokeLinecap="round"
+          style={{ animationDelay: `${-n * 1.1}s` }}
+        />
+      ))}
+
+      {/* the tied strand, dropping into the card below */}
+      <rect className="tv-strand pointer-events-none" x={KX - 7} y={KY} width={14} height={VH - KY} fill="var(--brand)" opacity="0.08" />
+      <line className="tv-strand pointer-events-none" x1={KX} x2={KX} y1={KY} y2={VH} stroke="var(--brand)" strokeWidth={2} />
+
+      <g className="tv-knot pointer-events-none">
+        <circle cx={KX} cy={KY} r={13} fill="var(--brand)" opacity="0.1" style={{ transformOrigin: `${KX}px ${KY}px`, animation: "breathe 3.2s ease-in-out infinite" }} />
+        <circle cx={KX} cy={KY} r={5} fill="var(--ivory)" stroke="var(--brand)" strokeWidth={2} />
+      </g>
+
+      <g className="tv-note pointer-events-none" style={{ font: "500 8.5px var(--font-geist), sans-serif", letterSpacing: "0.14em" }}>
+        <text x={KX + 18} y={KY + 3} fill="var(--muted)">
+          ONE CONTROL SET
+        </text>
+      </g>
+      <g className="tv-note pointer-events-none" style={{ font: "500 8.5px var(--font-geist), sans-serif", letterSpacing: "0.14em" }}>
+        <text x={KX - 18} y={KY + 3} textAnchor="end" fill="var(--muted)">
+          TESTED ONCE
+        </text>
+      </g>
+
+      {hi !== null && (
+        <text x={KX + 12} y={VH - 14} className="pointer-events-none" style={{ font: "500 10px var(--font-geist), sans-serif", fill: "var(--brand)" }}>
+          Tracing {names[hi]}
+        </text>
+      )}
     </svg>
   );
 }

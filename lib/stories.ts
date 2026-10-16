@@ -1,7 +1,11 @@
 /**
  * PLACEHOLDER, sample customer stories with fictional company names.
  * Replace with approved client case studies (names, logos, figures, quotes) before launch.
+ *
+ * While this is true every story is marked "Sample" on the site. Set it to
+ * false only once every story below is real or permission-cleared.
  */
+export const STORIES_ARE_SAMPLES = true;
 
 export type Story = {
   slug: string;
@@ -33,12 +37,12 @@ export const stories: Story[] = [
     size: "180 employees",
     hq: "Boston, US",
     frameworks: ["SOC 2", "ISO 27001", "HIPAA"],
-    services: ["Unified Audit", "Audit Readiness"],
+    services: ["Auditor Coordination", "Audit Readiness"],
     headline: "Three frameworks, one fieldwork window, zero engineering fire drills.",
     summary: "A Series B digital-health platform needed SOC 2 Type II, ISO 27001 and HIPAA in the same year to close hospital-system contracts.",
     metrics: [
       { v: "3", l: "Frameworks in one program" },
-      { v: "14 wks", l: "From kickoff to reports" },
+      { v: "14 wks", l: "From kickoff to audit-ready" },
       { v: "62%", l: "Fewer evidence requests" },
     ],
     quote: {
@@ -57,7 +61,7 @@ export const stories: Story[] = [
       { t: "Coordinated fieldwork", d: "CPA firm and certification body scheduled back to back in one window." },
     ],
     results: [
-      "SOC 2 Type I, ISO 27001 certification and HIPAA assessment delivered in 14 weeks",
+      "Audit-ready for SOC 2 Type I, ISO 27001 and a HIPAA assessment in 14 weeks, with reports issued by the client's independent auditors",
       "Two stalled hospital contracts closed within a month of reports landing",
       "Security questionnaire turnaround cut from weeks to two days",
     ],
@@ -141,12 +145,12 @@ export const stories: Story[] = [
     size: "90 employees",
     hq: "San Francisco, US",
     frameworks: ["ISO 42001", "SOC 2", "GDPR"],
-    services: ["Compliance Advisory", "Unified Audit"],
+    services: ["Compliance Advisory", "Auditor Coordination"],
     headline: "Among the first in its category certified to ISO 42001.",
     summary: "An enterprise AI platform turned responsible-AI governance from a sales objection into a differentiator.",
     metrics: [
       { v: "1st", l: "ISO 42001 in its segment" },
-      { v: "12 wks", l: "Certification timeline" },
+      { v: "12 wks", l: "To certification audit" },
       { v: "3×", l: "Faster enterprise security reviews" },
     ],
     quote: {
@@ -156,12 +160,12 @@ export const stories: Story[] = [
     },
     challenge: ["Enterprise buyers were asking detailed questions about model risk, training data and human oversight, questions SOC 2 alone couldn't answer."],
     approach: [
-      { t: "AI inventory", d: "Every model, dataset and AI-enabled feature catalogued." },
+      { t: "AI inventory", d: "Every model, dataset and AI-enabled feature cataloged." },
       { t: "Impact assessments", d: "AI system impact assessments for customer-facing capabilities." },
       { t: "Shared ISMS core", d: "ISO 42001 built on the existing SOC 2 control foundation." },
       { t: "GDPR alignment", d: "Training-data lawful basis and DPIAs integrated." },
     ],
-    results: ["ISO 42001 certification in 12 weeks", "Responsible-AI trust page adopted by sales", "Governance questionnaire answered from a single source"],
+    results: ["Ready for the ISO 42001 certification audit in 12 weeks", "Responsible-AI trust page adopted by sales", "Governance questionnaire answered from a single source"],
     weeks: 12,
     tone: "accent",
   },
@@ -174,10 +178,10 @@ export const stories: Story[] = [
     hq: "Austin, US",
     frameworks: ["SOC 2", "SOC 3"],
     services: ["Audit Readiness"],
-    headline: "First SOC 2 report in nine weeks, and a public SOC 3 on the website.",
+    headline: "Audit-ready for a first SOC 2 in nine weeks, and a public SOC 3 on the website.",
     summary: "A seed-stage infrastructure startup needed SOC 2 to sign its first Fortune 500 customer.",
     metrics: [
-      { v: "9 wks", l: "To SOC 2 Type I" },
+      { v: "9 wks", l: "To SOC 2 Type I readiness" },
       { v: "$1.2M", l: "First enterprise contract unblocked" },
       { v: "0", l: "Exceptions in Type II" },
     ],
@@ -193,7 +197,7 @@ export const stories: Story[] = [
       { t: "Tooling setup", d: "Evidence automation connected to their existing stack." },
       { t: "Type II runway", d: "Observation window started the day Type I was issued." },
     ],
-    results: ["SOC 2 Type I in 9 weeks, Type II six months later", "Public SOC 3 report now on the trust page", "Enterprise contract signed"],
+    results: ["Audit-ready for SOC 2 Type I in 9 weeks; Type II report followed six months later", "Public SOC 3 report now on the trust page", "Enterprise contract signed"],
     weeks: 9,
     tone: "brand",
   },
@@ -207,7 +211,7 @@ export const stories: Story[] = [
     frameworks: ["SEBI CSCRF", "ISO 27001", "DPDPA"],
     services: ["Compliance Advisory", "Continuous Compliance"],
     headline: "One framework for SEBI, ISO 27001 and India's new privacy law.",
-    summary: "A large broking firm harmonised overlapping regulatory obligations into a single, board-reported program.",
+    summary: "A large broking firm harmonized overlapping regulatory obligations into a single, board-reported program.",
     metrics: [
       { v: "3 → 1", l: "Programs consolidated" },
       { v: "100%", l: "CSCRF controls mapped" },
@@ -222,7 +226,7 @@ export const stories: Story[] = [
     approach: [
       { t: "Regulatory crosswalk", d: "CSCRF, ISO 27001 Annex A and DPDPA obligations mapped to one control set." },
       { t: "Governance redesign", d: "A single cyber and privacy committee reporting to the board." },
-      { t: "Privacy program", d: "Consent, notices and data-principal rights operationalised." },
+      { t: "Privacy program", d: "Consent, notices and data-principal rights operationalized." },
       { t: "Audit calendar", d: "Cyber audit and ISO surveillance aligned to one cycle." },
     ],
     results: ["Clean ISO 27001 surveillance and SEBI cyber audit", "DPDPA readiness roadmap underway", "Quarterly board dashboard across all obligations"],

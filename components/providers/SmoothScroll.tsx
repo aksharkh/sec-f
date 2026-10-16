@@ -35,7 +35,8 @@ export function SmoothScroll() {
       const el = document.querySelector(id);
       if (!el) return;
       e.preventDefault();
-      lenis.scrollTo(el as HTMLElement, { offset: -40 });
+      const margin = parseFloat(getComputedStyle(el).scrollMarginTop) || 40;
+      lenis.scrollTo(el as HTMLElement, { offset: -margin });
     };
     document.addEventListener("click", onClick);
 

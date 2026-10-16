@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { Reveal } from "@/components/ui/Reveal";
 import { HeroFade } from "./HeroFade";
-import { DrawRule } from "./DrawRule";
+import { ThreadKnot } from "@/components/brand/ThreadKnot";
 
 type Crumb = { label: string; href?: string };
 
@@ -33,16 +33,16 @@ export function PageHero({
 }) {
   const muted = dark ? "text-accent/60" : "text-muted";
   return (
-    <section className={`relative overflow-hidden pb-14 pt-36 md:pb-20 md:pt-44 ${dark ? "bg-brand text-accent" : "bg-ivory text-ink"}`}>
+    <section className={`relative overflow-hidden pb-10 pt-28 md:pb-20 md:pt-36 ${dark ? "bg-brand text-accent" : "bg-ivory text-ink"}`}>
       <div className="container-x relative">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-5">
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-b border-line pb-4 md:pb-5">
           <HeroFade as="p" className={`eyebrow flex items-center gap-3 ${muted}`}>
             <span className={`size-1.5 rounded-full ${dark ? "bg-accent" : "bg-brand"}`} />
             {eyebrow}
           </HeroFade>
           {crumbs && (
             <HeroFade as="nav" aria-label="Breadcrumb">
-              <ol className={`flex flex-wrap items-center gap-2 text-sm ${muted}`}>
+              <ol className={`flex flex-wrap items-center gap-2 text-[0.8rem] md:text-sm ${muted}`}>
                 {crumbs.map((c, i) => (
                   <li key={c.label} className="flex items-center gap-2">
                     {c.href ? (
@@ -60,8 +60,8 @@ export function PageHero({
           )}
         </div>
 
-        <div className={`mt-12 grid gap-10 md:mt-16 ${aside ? "lg:grid-cols-12 lg:items-end" : ""}`}>
-          <h1 className={`wide ${size === "xl" ? "text-[clamp(2.8rem,7vw,8rem)] leading-[0.95]" : "text-[clamp(2.4rem,5.4vw,6rem)] leading-[0.98]"} ${aside ? "lg:col-span-8" : "max-w-[18ch]"}`}>
+        <div className={`mt-8 grid gap-6 md:mt-16 md:gap-10 ${aside ? "lg:grid-cols-12 lg:items-end" : ""}`}>
+          <h1 className={`wide ${size === "xl" ? "text-[clamp(2.5rem,7vw,8rem)] leading-[0.95]" : "text-[clamp(2.2rem,5.4vw,6rem)] leading-[0.98]"} ${aside ? "lg:col-span-8" : "max-w-[18ch]"}`}>
             <Reveal as="span" trigger="load" delay={0.1} className="block">
               {title}
             </Reveal>
@@ -69,12 +69,12 @@ export function PageHero({
           {aside && <HeroFade className="lg:col-span-4">{aside}</HeroFade>}
         </div>
 
-        <DrawRule className={`mt-12 ${dark ? "bg-accent/25" : "bg-line"}`} />
+        <ThreadKnot trigger="ready" dark={dark} className="mt-6 md:mt-8" />
 
         {(intro || actions) && (
-          <div className="mt-8 grid gap-8 md:grid-cols-12 md:items-end">
+          <div className="mt-4 grid gap-6 md:mt-6 md:grid-cols-12 md:items-end md:gap-8">
             {intro && (
-              <HeroFade as="div" className={`max-w-xl text-lg leading-relaxed md:col-span-6 ${dark ? "text-accent/80" : "text-ink/70"}`}>
+              <HeroFade as="div" className={`max-w-xl text-base leading-relaxed md:col-span-6 md:text-lg ${dark ? "text-accent/80" : "text-ink/70"}`}>
                 {intro}
               </HeroFade>
             )}
