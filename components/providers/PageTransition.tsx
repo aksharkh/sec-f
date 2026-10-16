@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
-import { gsap, ScrollTrigger, markSiteBusy, markSiteReady, prefersReducedMotion } from "@/lib/gsap";
+import { gsap, ScrollTrigger, markSiteBusy, markSiteReady, prefersReducedMotion, smoothStalls } from "@/lib/gsap";
 import { SecureKnotsLogo } from "@/components/brand/SecureKnotsLogo";
 import { knotTimeline } from "@/lib/brand/knotTimeline";
 
@@ -41,6 +41,7 @@ export function PageTransition() {
       }
       pending.current = true;
       markSiteBusy();
+      smoothStalls(true);
       window.__lenis?.stop();
       const el = curtain.current!;
       if (label.current) label.current.textContent = a.dataset.label || prettify(url.pathname);
@@ -87,6 +88,7 @@ export function PageTransition() {
           onComplete: () => {
             gsap.set(el, { visibility: "hidden" });
             pending.current = false;
+            smoothStalls(false);
           },
         })
         .to(".pt-inner", { yPercent: -30, autoAlpha: 0, duration: 0.4, ease: "power2.in" }, 0.1)

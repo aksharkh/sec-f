@@ -11,6 +11,16 @@ if (typeof window !== "undefined") {
 
 export { gsap, ScrollTrigger, SplitText };
 
+/**
+ * Lenis needs GSAP's lag smoothing off, so a long main-thread stall makes
+ * every running animation jump ahead. While the knot plays over a page that
+ * is still starting up (loader, page transitions), turn smoothing on so the
+ * knot pauses through a stall instead of skipping, then turn it off again.
+ */
+export function smoothStalls(on: boolean) {
+  gsap.ticker.lagSmoothing(on ? 250 : 0, 33);
+}
+
 export const prefersReducedMotion = () =>
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
