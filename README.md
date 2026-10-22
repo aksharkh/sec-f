@@ -74,7 +74,7 @@ Seema asked to lead with **SOC 2, FedRAMP, CMMC and GDPR**, then named her core 
 - Header Frameworks menu, footer frameworks box, booking form and readiness quiz: they come first.
 - Service pages: they appear in each service's "Frameworks covered".
 
-**Hubs:** Seema said there are three delivery hubs. The count is updated everywhere it appears (homepage figures, hero line, coverage section, About, Careers), but only Wilmington and Bengaluru are listed with addresses and clocks. Add the third to `contact.offices` in `lib/content.ts` once she shares the city, address, phone and time zone.
+**Hubs:** three delivery hubs, taken from the contact section of secureknots.uk: Wilmington (SecureKnots LLC), London (SecureKnots Limited, 167-169 Great Portland Street) and Bengaluru (SecureKnots Pvt Ltd, Oxford Towers). They live in `contact.offices` in `lib/content.ts` and feed the live clocks and addresses on the homepage, About, Contact and the footer. London has no published phone number yet; add it to its `phones` list when there is one.
 
 ## Layout, type and motion
 

@@ -124,11 +124,11 @@ export function RegionalCoverage() {
           {/* Follow-the-sun delivery */}
           <aside className="lg:col-span-4">
             <p className="eyebrow text-muted">Follow-the-sun delivery</p>
-            <div className="mt-4 grid grid-cols-2 gap-3 lg:grid-cols-1">
+            <div className="mt-4 grid gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-1">
               {contact.offices.map((o) => {
                 const t = now ? officeTime(now, o.tz) : null;
                 return (
-                  <div key={o.city} className="rounded-[6px] border border-line bg-paper p-4 md:p-6">
+                  <div key={o.city} className="flex items-end justify-between gap-4 rounded-[6px] border border-line bg-paper p-4 sm:block md:p-5">
                     <div className="flex flex-col-reverse gap-2 md:flex-row md:items-start md:justify-between md:gap-4">
                       <div>
                         <p className="serif text-[1.35rem] leading-none md:text-[1.7rem]">{o.city}</p>
@@ -139,7 +139,7 @@ export function RegionalCoverage() {
                         {t ? (t.working ? "Working hours" : "After hours") : "Local time"}
                       </span>
                     </div>
-                    <p className="num mt-5 text-[2rem] md:mt-8 md:text-[clamp(2.6rem,4vw,3.4rem)]" suppressHydrationWarning>
+                    <p className="num text-[1.8rem] sm:mt-5 md:mt-6 md:text-[clamp(2.2rem,3.2vw,2.9rem)]" suppressHydrationWarning>
                       {t ? t.time : "--:--"}
                     </p>
                   </div>

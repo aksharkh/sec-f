@@ -71,7 +71,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
               email: "contact@secureknots.com",
               telephone: "+1-302-608-6708",
               address: { "@type": "PostalAddress", streetAddress: "1207 Delaware Ave #749", addressLocality: "Wilmington", addressRegion: "DE", postalCode: "19806", addressCountry: "US" },
-              areaServed: ["US", "IN", "EU"],
+              areaServed: ["US", "GB", "IN", "EU"],
             }),
           }}
         />

@@ -102,15 +102,16 @@ export default function AboutPage() {
       <section data-theme="dark" className="bg-ink py-16 text-ivory md:py-24 lg:py-28">
         <div className="container-x">
           <SectionHead dark eyebrow="Offices" title={<>Three hubs. <span className="em text-accent">One team.</span></>} />
-          <div className="mt-8 grid gap-2 md:mt-14 md:grid-cols-2 md:gap-4">
+          <div className="mt-8 grid gap-2 md:mt-14 md:grid-cols-3 md:gap-3">
             {contact.offices.map((o) => (
-              <FadeUp key={o.city} className="relative overflow-hidden rounded-[1.25rem] border border-ivory/10 p-5 md:rounded-[2rem] md:p-12">
+              <FadeUp key={o.city} className="relative flex flex-col overflow-hidden rounded-[1.25rem] border border-ivory/10 p-5 md:rounded-[2rem] md:p-8">
                 <Glyph seed={o.city} className="pointer-events-none absolute -right-10 -top-10 w-44 text-brand-3/30 md:-right-16 md:-top-16 md:w-80" />
                 <p className="eyebrow text-ivory/50">{o.region}</p>
-                <p className="display mt-4 text-[clamp(2.2rem,6vw,6rem)] md:mt-10">{o.city}</p>
-                <div className="mt-4 flex items-center justify-between gap-4 border-t border-ivory/10 pt-4 md:mt-6 md:gap-6 md:pt-6">
-                  <p className="text-sm text-ivory/60 md:text-base">{o.address}</p>
-                  <span className="text-lg md:text-2xl">
+                <p className="display mt-4 text-[clamp(2.2rem,3.8vw,4rem)] md:mt-8">{o.city}</p>
+                <p className="mt-2 text-sm text-ivory/50">{o.entity}</p>
+                <div className="mt-4 flex items-end justify-between gap-4 border-t border-ivory/10 pt-4 md:mt-auto md:pt-6">
+                  <p className="text-sm leading-snug text-ivory/60 md:max-w-[16rem]">{o.address}</p>
+                  <span className="shrink-0 text-lg md:text-xl">
                     <LiveClock tz={o.tz} />
                   </span>
                 </div>

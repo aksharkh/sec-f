@@ -7,17 +7,30 @@ export const contact = {
   email: "contact@secureknots.com",
   phoneUS: "+1-302-608-6708",
   phoneIN: "080-3165-8865",
+  // Three hubs, west to east, as listed on secureknots.uk. No UK phone number published yet.
   offices: [
     {
       city: "Wilmington",
       region: "Delaware, US",
+      entity: "SecureKnots LLC",
       address: "1207 Delaware Ave #749, Wilmington, DE 19806",
+      phones: ["+1-302-608-6708"],
       tz: "America/New_York",
+    },
+    {
+      city: "London",
+      region: "England, UK",
+      entity: "SecureKnots Limited",
+      address: "167-169 Great Portland Street, 5th Floor, London W1W 5PF",
+      phones: [] as string[],
+      tz: "Europe/London",
     },
     {
       city: "Bengaluru",
       region: "Karnataka, IN",
-      address: "Bengaluru, India",
+      entity: "SecureKnots Pvt Ltd",
+      address: "Unit 101, Oxford Towers, 139 HAL Old Airport Rd, Kodihalli, Bengaluru 560008",
+      phones: ["080-3165-8865", "+91 9663079719"],
       tz: "Asia/Kolkata",
     },
   ],
@@ -214,7 +227,7 @@ export const process = [
 export const stats = [
   { value: frameworkCount, suffix: "", label: "Frameworks and standards in one practice" },
   { value: 16, suffix: "", label: "Control domains in one unified library" },
-  { value: 3, suffix: "", label: "Delivery hubs, including Delaware and Bengaluru" },
+  { value: 3, suffix: "", label: "Delivery hubs: Delaware, London and Bengaluru" },
   { value: 1, suffix: "", label: "Control set behind every framework you need" },
 ];
 

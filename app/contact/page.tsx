@@ -44,17 +44,24 @@ export default function ContactPage() {
               <a href={`mailto:${contact.email}`} className="link-sweep block text-xl tracking-[-0.02em] md:text-2xl">
                 {contact.email}
               </a>
-              <div className="grid grid-cols-2 gap-4 md:gap-6">
+              <div className="grid gap-5 sm:grid-cols-3 sm:gap-4 lg:grid-cols-1 lg:gap-5">
                 {contact.offices.map((o) => (
-                  <div key={o.city} className="border-t border-ivory/15 pt-5">
-                    <p className="flex items-center justify-between">
+                  <div key={o.city} className="border-t border-ivory/15 pt-4 md:pt-5">
+                    <p className="flex items-center justify-between gap-3">
                       <span className="text-lg md:text-xl">{o.city}</span>
                       <LiveClock tz={o.tz} />
                     </p>
-                    <p className="mt-2 text-sm text-ivory/55">{o.address}</p>
-                    <a href={`tel:${(o.tz.startsWith("America") ? contact.phoneUS : contact.phoneIN).replace(/[^+\d]/g, "")}`} className="link-sweep mt-2 inline-block text-sm text-ivory/80">
-                      {o.tz.startsWith("America") ? contact.phoneUS : contact.phoneIN}
-                    </a>
+                    <p className="mt-1 text-xs text-ivory/45">{o.entity}</p>
+                    <p className="mt-2 text-sm leading-snug text-ivory/60">{o.address}</p>
+                    {o.phones.length > 0 && (
+                      <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+                        {o.phones.map((ph) => (
+                          <a key={ph} href={`tel:${ph.replace(/[^+\d]/g, "")}`} className="link-sweep text-sm text-ivory/80">
+                            {ph}
+                          </a>
+                        ))}
+                      </p>
+                    )}
                   </div>
                 ))}
               </div>

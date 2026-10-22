@@ -226,21 +226,27 @@ export function MeridianFooter() {
             {/* Offices */}
             {contact.offices.map((o) => {
               const t = now ? officeTime(now, o.tz) : null;
-              const phone = o.tz.startsWith("America") ? contact.phoneUS : contact.phoneIN;
               return (
-                <div key={o.city} data-box className={`${box} col-span-1 flex flex-col gap-4 md:flex-row md:items-end md:justify-between lg:col-span-6`}>
+                <div key={o.city} data-box className={`${box} col-span-2 flex items-end justify-between gap-4 lg:col-span-4 lg:flex-col lg:items-stretch`}>
                   <div>
                     <span className={`eyebrow flex items-center gap-2 text-[0.58rem] md:text-[0.65rem] ${t?.working ? "text-brand-3" : "text-ivory/45"}`}>
                       <span className={`size-1.5 rounded-full ${t?.working ? "animate-pulse bg-brand-3" : "bg-ivory/30"}`} />
                       {t ? (t.working ? "Working hours" : "After hours") : "Local time"}
                     </span>
                     <p className="serif mt-3 text-[1.5rem] leading-none md:text-[2rem]">{o.city}</p>
-                    <p className="mt-1.5 text-[0.78rem] leading-snug text-ivory/55 md:text-sm">{o.address}</p>
-                    <a href={`tel:${phone.replace(/[^+\d]/g, "")}`} className="mt-1 inline-block text-[0.78rem] text-ivory/70 hover:text-ivory md:text-sm">
-                      {phone}
-                    </a>
+                    <p className="mt-1 text-[0.72rem] text-ivory/45 md:text-xs">{o.entity}</p>
+                    <p className="mt-1.5 max-w-xs text-[0.78rem] leading-snug text-ivory/55 md:text-sm">{o.address}</p>
+                    {o.phones.length > 0 && (
+                      <p className="mt-1 flex flex-wrap gap-x-3">
+                        {o.phones.map((ph) => (
+                          <a key={ph} href={`tel:${ph.replace(/[^+\d]/g, "")}`} className="text-[0.78rem] text-ivory/70 hover:text-ivory md:text-sm">
+                            {ph}
+                          </a>
+                        ))}
+                      </p>
+                    )}
                   </div>
-                  <p className="num text-[1.9rem] md:text-[3rem]" suppressHydrationWarning>
+                  <p className="num shrink-0 text-[1.9rem] md:text-[2.6rem] lg:mt-auto lg:pt-4" suppressHydrationWarning>
                     {t ? t.time : "--:--"}
                   </p>
                 </div>

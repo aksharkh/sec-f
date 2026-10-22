@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const perks = [
   { t: "Real problems", d: "Work across SaaS, defense, fintech and AI, often in the same quarter." },
   { t: "Certifications funded", d: "Exam fees, training and study time for the credentials that matter." },
-  { t: "Remote-first", d: "Three delivery hubs, including Wilmington and Bengaluru; work where you do your best thinking." },
+  { t: "Remote-first", d: "Hubs in Wilmington, London and Bengaluru; work where you do your best thinking." },
   { t: "Small teams, senior people", d: "No pyramid. You work directly with clients from week one." },
 ];
 
