@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/Button";
 type Q = { q: string; options: string[]; scored: boolean };
 
 const questions: Q[] = [
-  { q: "Which framework is your first priority?", options: ["SOC 2", "ISO 27001", "FedRAMP / CMMC", "Several at once"], scored: false },
+  { q: "Which framework is your first priority?", options: ["FedRAMP 20x", "FedRAMP", "SOC 2", "CMMC", "GDPR", "Several at once"], scored: false },
   { q: "Do you have documented, approved security policies?", options: ["Not yet", "Drafts exist", "Yes, reviewed annually"], scored: true },
   { q: "How is access to production systems reviewed?", options: ["Ad hoc", "Occasionally", "Quarterly, with evidence"], scored: true },
   { q: "Have you completed a risk assessment in the last 12 months?", options: ["No", "In progress", "Yes, documented"], scored: true },
@@ -143,7 +143,7 @@ export function ReadinessCheck({ eyebrow = "Readiness check" }: { eyebrow?: Reac
                     {priority && <p className="mt-3 text-sm text-muted">Priority: {priority}</p>}
                   </div>
                   <div className="sm:col-span-2">
-                    <Button href="#book" book={priority && priority !== "Several at once" && priority !== "FedRAMP / CMMC" ? priority : undefined}>
+                    <Button href="#book" book={priority && priority !== "Several at once" ? priority : undefined}>
                       Get your full gap assessment
                     </Button>
                   </div>

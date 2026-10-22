@@ -1,10 +1,12 @@
 "use client";
 
+import { SHOW_STORIES } from "@/lib/stories";
 import Link from "next/link";
 import { useEffect, useRef, type PointerEvent as ReactPointerEvent } from "react";
 import { contact, frameworkCount, frameworkGroups, services } from "@/lib/content";
 import { ScrollTrigger, prefersReducedMotion } from "@/lib/gsap";
 import { officeTime, useNow } from "@/lib/time";
+import { CORE_SERVICES, isCore } from "@/lib/frameworks";
 import { Glyph } from "@/components/ui/Glyph";
 import { Button } from "@/components/ui/Button";
 import { Newsletter } from "@/components/insights/InsightsBrowser";
@@ -12,7 +14,7 @@ import { Wordmark } from "./MeridianNav";
 
 const company = [
   { label: "About", href: "/about" },
-  { label: "Customers", href: "/customers" },
+  ...(SHOW_STORIES ? [{ label: "Customers", href: "/customers" }] : []),
   { label: "Industries", href: "/industries" },
   { label: "Insights", href: "/insights" },
   { label: "Careers", href: "/careers" },
@@ -41,7 +43,11 @@ export function MeridianFooter() {
   const card = useRef<HTMLDivElement>(null);
   const word = useRef<HTMLParagraphElement>(null);
   const now = useNow();
-  const popular = frameworkGroups.flatMap((g) => g.items.slice(0, 2));
+  const all = frameworkGroups.flatMap((g) => g.items);
+  const popular = [
+    ...CORE_SERVICES.map((s) => all.find((f) => f.slug === s)!),
+    ...frameworkGroups.flatMap((g) => g.items.slice(0, 2)).filter((f) => !isCore(f.slug)),
+  ].slice(0, 12);
 
   useEffect(() => {
     const el = root.current;
@@ -166,7 +172,9 @@ export function MeridianFooter() {
                   <li key={f.slug}>
                     <Link
                       href={`/frameworks/${f.slug}`}
-                      className="inline-flex rounded-full border border-line-dark px-3 py-1.5 text-[0.82rem] text-ivory/75 transition-colors duration-300 hover:border-brand-3 hover:bg-brand-3 hover:text-ink"
+                      className={`inline-flex rounded-full border px-3 py-1.5 text-[0.82rem] transition-colors duration-300 hover:border-brand-3 hover:bg-brand-3 hover:text-ink ${
+                        isCore(f.slug) ? "border-brand-3/50 bg-brand-3/15 text-ivory" : "border-line-dark text-ivory/75"
+                      }`}
                     >
                       {f.name}
                     </Link>

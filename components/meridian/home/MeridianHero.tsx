@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { gsap, onSiteReady, prefersReducedMotion } from "@/lib/gsap";
 import { frameworkCount } from "@/lib/content";
@@ -59,11 +60,21 @@ export function MeridianHero() {
             Compliance advisory &amp; audit readiness
           </p>
           <p className="text-[0.8rem] text-muted md:text-sm">
-            {frameworkCount} frameworks · Practitioner-led · US &amp; India
+            {frameworkCount} frameworks · Practitioner-led · 3 delivery hubs
           </p>
         </div>
 
-        <div className="mt-7 grid gap-6 md:mt-10 md:gap-10 lg:grid-cols-12 lg:items-end">
+        <Link
+          href="/frameworks/fedramp-20x"
+          className="mh-fade group mt-5 inline-flex max-w-full items-center gap-2.5 rounded-full border border-brand/25 bg-brand/[0.06] px-4 py-1.5 text-[0.8rem] text-brand transition-colors duration-300 hover:bg-brand hover:text-ivory md:mt-7 md:text-sm"
+        >
+          <span className="truncate">FedRAMP 20x readiness: Classes A to D, KSIs and SDR packages</span>
+          <svg viewBox="0 0 16 16" fill="none" className="size-3 shrink-0 transition-transform duration-500 group-hover:translate-x-0.5" aria-hidden>
+            <path d="M1 8h13M9 3l5 5-5 5" stroke="currentColor" strokeWidth="1.5" />
+          </svg>
+        </Link>
+
+        <div className="mt-6 grid gap-6 md:mt-8 md:gap-10 lg:grid-cols-12 lg:items-end">
           <h1 className="wide text-[clamp(3.2rem,7.8vw,8.8rem)] leading-[0.92] lg:col-span-8">
             <Reveal as="span" trigger="load" delay={0.25} className="block">
               Many frameworks.
@@ -74,7 +85,7 @@ export function MeridianHero() {
           </h1>
           <div className="lg:col-span-4 lg:pb-4">
             <p className="mh-fade max-w-md text-[1.02rem] leading-relaxed text-ink/70 md:text-lg">
-              We get you audit-ready for SOC 2, ISO 27001, FedRAMP, CMMC and {frameworkCount - 4} more frameworks as one program, then coordinate the independent auditors who issue your reports.
+              We get you audit-ready for FedRAMP 20x, FedRAMP, CMMC, SOC 2 and GDPR, plus {frameworkCount - 5} more frameworks, as one program, then coordinate the independent auditors and assessors who issue your reports.
             </p>
             <div className="mh-fade mt-6 flex flex-wrap gap-3 md:mt-8">
               <Button href="#book">Book a consultation</Button>
@@ -121,7 +132,7 @@ function Check({ className }: { className?: string }) {
 function ReadinessCard() {
   return (
     <aside
-      aria-label="Illustrative readiness snapshot for a sample program"
+      aria-label="Illustrative readiness snapshot"
       className="mh-card relative mx-auto mt-0 w-full max-w-sm rounded-[6px] border border-line bg-ivory/95 p-4 shadow-[0_24px_60px_-30px_rgb(15_23_41/0.35)] backdrop-blur md:mt-6 lg:pointer-events-auto lg:mt-0 lg:w-[18rem]"
     >
       <div className="flex items-center justify-between gap-4">
@@ -155,7 +166,7 @@ function ReadinessCard() {
           </li>
         ))}
       </ul>
-      <p className="mt-3 text-[0.68rem] leading-snug text-muted">Sample program for illustration, not a product.</p>
+      <p className="mt-3 text-[0.68rem] leading-snug text-muted">For illustration only, not a product.</p>
     </aside>
   );
 }

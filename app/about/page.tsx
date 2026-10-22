@@ -101,7 +101,7 @@ export default function AboutPage() {
       {/* Offices */}
       <section data-theme="dark" className="bg-ink py-16 text-ivory md:py-24 lg:py-28">
         <div className="container-x">
-          <SectionHead dark eyebrow="Offices" title={<>Two time zones. <span className="em text-accent">One team.</span></>} />
+          <SectionHead dark eyebrow="Offices" title={<>Three hubs. <span className="em text-accent">One team.</span></>} />
           <div className="mt-8 grid gap-2 md:mt-14 md:grid-cols-2 md:gap-4">
             {contact.offices.map((o) => (
               <FadeUp key={o.city} className="relative overflow-hidden rounded-[1.25rem] border border-ivory/10 p-5 md:rounded-[2rem] md:p-12">

@@ -3,8 +3,12 @@
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { frameworkGroups, frameworkCount, services, process as steps, stats, contact, roleLine } from "@/lib/content";
-import { stories } from "@/lib/stories";
+import { SHOW_STORIES, stories } from "@/lib/stories";
 import { articles } from "@/lib/insights";
+import { CORE_SERVICES, CORE_SLUGS, FEATURED_SLUG, coreFrameworks, featuredFramework, getFramework } from "@/lib/frameworks";
+
+// Core services without their own card above (GovRAMP, ITAR, CUI).
+const alsoCore = CORE_SERVICES.filter((s) => s !== FEATURED_SLUG && !CORE_SLUGS.includes(s)).map((s) => getFramework(s)!);
 import { gsap, prefersReducedMotion } from "@/lib/gsap";
 import { Reveal, FadeUp } from "@/components/ui/Reveal";
 import { Button } from "@/components/ui/Button";
@@ -12,7 +16,6 @@ import { Glyph } from "@/components/ui/Glyph";
 import { ReededGlassStatic } from "@/components/ui/ReededGlass";
 import { ScrubText } from "@/components/page/ScrubText";
 import { coverHue, formatDate } from "@/components/insights/ArticleCard";
-import { SampleTag } from "@/components/stories/SampleTag";
 import { TyingKnot } from "@/components/brand/TyingKnot";
 import { Head } from "./Head";
 import { ScanTerminal } from "./ScanTerminal";
@@ -70,7 +73,7 @@ export function Facts() {
 }
 
 /* ───────── 01 The problem ───────── */
-const PROGRAMS = ["SOC 2", "ISO 27001", "HIPAA", "PCI DSS", "ISO 42001"];
+const PROGRAMS = ["SOC 2", "FedRAMP", "CMMC", "GDPR", "ISO 27001"];
 
 export function Perspective() {
   return (
@@ -114,7 +117,149 @@ export function Perspective() {
   );
 }
 
-/* ───────── 02 Services ───────── */
+/* ───────── 02 Core frameworks ───────── */
+export function CoreFrameworks() {
+  return (
+    <section id="core" data-rail="Core" data-theme="dark" className="bg-ink py-16 text-ivory md:py-24 lg:py-28">
+      <div className="container-x">
+        <Head
+          dark
+          n="02"
+          label="Core frameworks"
+          title={
+            <>
+              FedRAMP 20x, FedRAMP, CMMC, SOC 2 <span className="em text-brand-3">and GDPR.</span>
+            </>
+          }
+          aside="Where our practice goes deepest: FedRAMP 20x and FedRAMP for US federal cloud, CMMC for defense suppliers, SOC 2 for commercial buyers, and GDPR for Europe."
+        />
+
+        {/* Featured: FedRAMP 20x */}
+        <FadeUp y={24} className="relative mt-8 overflow-hidden rounded-[18px] bg-brand p-5 text-ivory md:mt-14 md:p-10">
+          <Glyph seed="fedramp-20x" strands={11} strokeWidth={0.5} className="pointer-events-none absolute -right-24 -top-24 w-[30rem] text-brand-3/30" />
+          <div className="relative grid gap-8 lg:grid-cols-12 lg:gap-10">
+            <div className="flex flex-col lg:col-span-5">
+              <p className="eyebrow text-ivory/70">{featuredFramework.core.market}</p>
+              <h3 className="serif mt-4 text-[clamp(2.8rem,5vw,4.8rem)] leading-none">{featuredFramework.name}</h3>
+              <p className="mt-2 text-ivory/70">Readiness partner for Classes A, B, C and D</p>
+              <p className="mt-5 max-w-lg text-[1.02rem] leading-relaxed text-ivory/90 md:text-lg">
+                We build your Key Security Indicators and your Security Decision Record package, in Word and in JSON, ready for your independent assessment.
+              </p>
+              <div className="mt-7 flex flex-wrap items-center gap-3 lg:mt-auto lg:pt-8">
+                <Button href={`/frameworks/${featuredFramework.slug}`} variant="accent">
+                  FedRAMP 20x in depth
+                </Button>
+                <Button href="#book" book={featuredFramework.name} variant="outline-light">
+                  Book a 20x readiness call
+                </Button>
+              </div>
+            </div>
+            <div className="lg:col-span-7">
+              <p className="eyebrow text-ivory/60">Certification classes</p>
+              <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+                {featuredFramework.requirements.slice(0, 4).map((r) => (
+                  <li key={r.t} className="rounded-[12px] bg-ivory/10 p-4">
+                    <p className="num text-[1.6rem] text-ivory">{r.t}</p>
+                    <p className="mt-2 text-[0.84rem] leading-snug text-ivory/80">{r.d}</p>
+                  </li>
+                ))}
+              </ul>
+              <p className="eyebrow mt-6 text-ivory/60">What you get from us</p>
+              <ul className="mt-3 flex flex-wrap gap-1.5">
+                {featuredFramework.core.deliverables.map((d) => (
+                  <li key={d} className="rounded-full border border-ivory/30 px-3 py-1.5 text-[0.8rem] text-ivory/90">
+                    {d}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </FadeUp>
+
+        <p className="eyebrow mt-6 text-ivory/50 md:hidden">Swipe through all four</p>
+        <div className="mt-3 gap-2.5 md:gap-3 lg:grid-cols-2 -mx-[var(--gutter)] flex snap-x snap-mandatory scroll-px-[var(--gutter)] overflow-x-auto px-[var(--gutter)] pb-1 [scrollbar-width:none] md:mx-0 md:grid md:overflow-visible md:px-0 md:pb-0 [&::-webkit-scrollbar]:hidden">
+          {coreFrameworks.map((f, i) => (
+            <FadeUp
+              key={f.slug}
+              y={24}
+              delay={(i % 2) * 0.08}
+              as="article"
+              className="group relative flex w-[86vw] shrink-0 snap-start flex-col overflow-hidden rounded-[18px] border border-line-dark bg-ink-2 p-5 md:w-auto md:p-8"
+            >
+              <Glyph seed={`core-${f.slug}`} strands={9} className="pointer-events-none absolute -right-20 -top-20 w-72 text-brand-3/15 transition-transform duration-[1.6s] ease-out-expo group-hover:rotate-12 md:w-96" />
+              <div className="relative flex items-start justify-between gap-4">
+                <div>
+                  <p className="eyebrow text-brand-3">{f.core.market}</p>
+                  <h3 className="serif mt-3 text-[clamp(2.7rem,4.6vw,4.4rem)] leading-none">{f.name}</h3>
+                  <p className="mt-2 text-sm text-ivory/55">{f.full}</p>
+                </div>
+                <span className="num text-[2rem] text-ivory/20 md:text-[2.6rem]">0{i + 1}</span>
+              </div>
+
+              <p className="relative mt-5 max-w-xl text-[1.02rem] leading-relaxed text-ivory/85 md:mt-6 md:text-lg">{f.core.proves}</p>
+              <p className="relative mt-2 text-sm text-ivory/55">
+                <span className="text-ivory/75">Asked for by:</span> {f.core.buyer}
+              </p>
+
+              <dl className="relative mt-6 grid grid-cols-3 gap-px overflow-hidden rounded-[10px] border border-line-dark bg-line-dark">
+                {[
+                  ["Timeline", f.timeline],
+                  ["Assessed by", f.assessment],
+                  ["Validity", f.validity],
+                ].map(([k, v]) => (
+                  <div key={k} className="bg-ink-2 p-3 md:p-4">
+                    <dt className="eyebrow text-[0.55rem] text-ivory/45 md:text-[0.62rem]">{k}</dt>
+                    <dd className="mt-1.5 text-[0.8rem] leading-snug text-ivory md:text-sm">{v}</dd>
+                  </div>
+                ))}
+              </dl>
+
+              <p className="eyebrow relative mt-6 text-ivory/45">How we get you there</p>
+              <ol className="relative mt-3 grid grid-cols-2 gap-1.5">
+                {f.core.phases.map((p, j) => (
+                  <li key={p.t} className="flex gap-2 rounded-[10px] bg-ivory/[0.04] px-2.5 py-2 md:gap-3 md:px-3 md:py-2.5">
+                    <span className="serif text-sm italic text-brand-3">0{j + 1}</span>
+                    <span>
+                      <span className="block text-[0.8rem] leading-tight text-ivory md:text-[0.88rem]">{p.t}</span>
+                      <span className="mt-0.5 block text-[0.74rem] text-ivory/50">{p.time}</span>
+                    </span>
+                  </li>
+                ))}
+              </ol>
+
+              <div className="relative mt-7 flex flex-wrap items-center gap-3 md:mt-auto md:pt-8">
+                <Button href={`/frameworks/${f.slug}`} variant="accent">
+                  {f.name} in depth
+                </Button>
+                <Button href="#book" book={f.name} variant="outline-light">
+                  Book a {f.name} call
+                </Button>
+              </div>
+            </FadeUp>
+          ))}
+        </div>
+
+        {/* The rest of the core services */}
+        <div className="mt-6 flex flex-wrap items-center gap-2 md:mt-8">
+          <span className="eyebrow mr-2 w-full text-ivory/50 md:w-auto">Also core to our practice</span>
+          {alsoCore.map((f) => (
+            <Link
+              key={f.slug}
+              href={`/frameworks/${f.slug}`}
+              className="group inline-flex items-center gap-2 rounded-full border border-line-dark px-4 py-2 text-sm text-ivory/85 transition-colors hover:border-brand-3 hover:bg-brand-3 hover:text-ink"
+            >
+              {f.name}
+              <span className="text-ivory/45 group-hover:text-ink/60">{f.full}</span>
+              <Arrow className="size-3" />
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ───────── 03 Services ───────── */
 // Two lead services across the top, three below. Tones alternate so the grid reads as a set.
 const SERVICE_TONE = [
   "bg-brand text-ivory",
@@ -129,7 +274,7 @@ export function Capabilities() {
     <section id="services" data-rail="Services" className="bg-ivory pb-16 md:pb-24 lg:pb-28">
       <div className="container-x">
         <Head
-          n="02"
+          n="03"
           label="We tie it"
           title={
             <>
@@ -213,7 +358,7 @@ export function Capabilities() {
   );
 }
 
-/* ───────── 03 Process (dark) ───────── */
+/* ───────── 04 Process (dark) ───────── */
 export function Approach() {
   const root = useRef<HTMLElement>(null);
   useEffect(() => {
@@ -232,7 +377,7 @@ export function Approach() {
       <div className="container-x">
         <Head
           dark
-          n="03"
+          n="04"
           label="Approach"
           title={
             <>
@@ -270,7 +415,7 @@ export function Approach() {
   );
 }
 
-/* ───────── 04 Why SecureKnots ───────── */
+/* ───────── 05 Why SecureKnots ───────── */
 const PILLARS = [
   { t: "Unified", d: "One control set, mapped to every framework you need. Evidence collected once, reused everywhere.", k: "1 control set" },
   { t: "Practitioner-led", d: "Consultants drawn from established cybersecurity and compliance firms, people who have sat on both sides of the audit table.", k: "Both sides of the table" },
@@ -283,7 +428,7 @@ export function WhyUs() {
     <section id="why" data-rail="Why us" className="bg-paper py-16 md:py-24 lg:py-28">
       <div className="container-x">
         <Head
-          n="04"
+          n="05"
           label="Why SecureKnots"
           title={
             <>
@@ -313,13 +458,13 @@ export function WhyUs() {
   );
 }
 
-/* ───────── 05 Framework directory ───────── */
+/* ───────── 06 Framework directory ───────── */
 export function FrameworkDirectory() {
   return (
     <section id="frameworks" data-rail="Frameworks" className="bg-ivory py-16 md:py-24 lg:py-28">
       <div className="container-x">
         <Head
-          n="05"
+          n="06"
           label="Frameworks"
           title={
             <>
@@ -367,14 +512,14 @@ export function FrameworkDirectory() {
   );
 }
 
-/* ───────── 10 Client stories ───────── */
+/* ───────── 11 Client stories ───────── */
 export function Voices() {
   const [a, ...rest] = stories;
   return (
     <section id="stories" data-rail="Stories" className="bg-ivory py-16 md:py-24 lg:py-28">
       <div className="container-x">
         <Head
-          n="10"
+          n="11"
           label="Client stories"
           title={
             <>
@@ -387,8 +532,7 @@ export function Voices() {
         <FadeUp className="relative mt-8 grid gap-7 overflow-hidden rounded-[6px] bg-brand p-5 text-ivory md:mt-14 md:gap-10 md:p-10 lg:grid-cols-12 lg:p-12">
           <Glyph seed={a.slug} strands={11} strokeWidth={0.5} className="pointer-events-none absolute -right-24 -top-24 w-[28rem] text-brand-3/25" />
           <div className="relative lg:col-span-4">
-            <SampleTag dark />
-            <p className="mt-4 text-lg font-medium">{a.company}</p>
+            <p className="text-lg font-medium">{a.company}</p>
             <p className="mt-1 flex items-center gap-1.5 text-sm text-ivory/60">
               <Pin className="size-3" />
               {a.hq} · {a.industry}
@@ -444,7 +588,6 @@ export function Voices() {
                 <span className="flex items-center gap-2">
                   Read story <Arrow className="size-3 transition-transform duration-500 group-hover:translate-x-1" />
                 </span>
-                <SampleTag />
               </span>
             </Link>
           ))}
@@ -463,13 +606,13 @@ export function Pin({ className }: { className?: string }) {
   );
 }
 
-/* ───────── 11 Insights ───────── */
+/* ───────── 12 Insights (11 while stories are hidden) ───────── */
 export function Journal() {
   return (
     <section id="insights" data-rail="Insights" className="bg-ivory pb-16 md:pb-24 lg:pb-28">
       <div className="container-x">
         <Head
-          n="11"
+          n={SHOW_STORIES ? "12" : "11"}
           label="Insights"
           title={
             <>

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { frameworks, getFramework } from "@/lib/frameworks";
+import { frameworks, getFramework, isCore } from "@/lib/frameworks";
 import { process } from "@/lib/content";
-import { stories } from "@/lib/stories";
+import { SHOW_STORIES, stories } from "@/lib/stories";
 import { PageHero } from "@/components/page/PageHero";
 import { StickyToc } from "@/components/page/StickyToc";
 import { Accordion } from "@/components/page/Accordion";
@@ -25,10 +25,12 @@ export async function generateMetadata({ params }: PageProps<"/frameworks/[slug]
   return { title: `${f.name} compliance`, description: f.summary };
 }
 
-const toc = [
+// Core frameworks get an extra "What you get" section.
+const tocFor = (core: boolean) => [
   { id: "overview", label: "Overview" },
   { id: "requirements", label: "Requirements" },
   { id: "approach", label: "Our approach" },
+  ...(core ? [{ id: "deliverables", label: "What you get" }] : []),
   { id: "related", label: "Related frameworks" },
   { id: "faq", label: "FAQ" },
 ];
@@ -39,9 +41,15 @@ export default async function FrameworkPage({ params }: PageProps<"/frameworks/[
   if (!f) notFound();
 
   const related = f.related.map(getFramework).filter(Boolean) as NonNullable<ReturnType<typeof getFramework>>[];
-  const story = stories.find((s) => s.frameworks.includes(f.name)) ?? stories.find((s) => s.frameworks.some((x) => related.some((r) => r.name === x)));
+  const story = SHOW_STORIES
+    ? (stories.find((s) => s.frameworks.includes(f.name)) ?? stories.find((s) => s.frameworks.some((x) => related.some((r) => r.name === x))))
+    : undefined;
   const idx = frameworks.findIndex((x) => x.slug === f.slug);
   const next = frameworks[(idx + 1) % frameworks.length];
+
+  const toc = tocFor(!!f.core);
+  // Core frameworks have their own delivery plan; the rest use the general one.
+  const steps = f.core ? f.core.phases.map((p, i) => ({ n: String(i + 1).padStart(2, "0"), time: p.time, title: p.t, body: p.d })) : process;
 
   const facts = [
     { k: "Issued by", v: f.issuer },
@@ -54,7 +62,7 @@ export default async function FrameworkPage({ params }: PageProps<"/frameworks/[
     <>
       <PageHero
         crumbs={[{ label: "Home", href: "/" }, { label: "Frameworks", href: "/frameworks" }, { label: f.name }]}
-        eyebrow={`${f.group} · ${f.full}`}
+        eyebrow={`${isCore(f.slug) ? "Core service · " : ""}${f.group} · ${f.full}`}
         title={f.name}
         intro={f.summary}
         actions={
@@ -113,6 +121,18 @@ export default async function FrameworkPage({ params }: PageProps<"/frameworks/[
                   </FadeUp>
                 ))}
               </ul>
+              {f.core && (
+                <div className="mt-2 grid gap-2 md:mt-3 md:grid-cols-2 md:gap-3">
+                  <FadeUp className="rounded-[1.1rem] bg-brand p-5 text-ivory md:p-7">
+                    <p className="eyebrow text-ivory/60">What it proves</p>
+                    <p className="mt-3 text-lg leading-snug tracking-[-0.01em] md:text-xl">{f.core.proves}</p>
+                  </FadeUp>
+                  <FadeUp delay={0.08} className="rounded-[1.1rem] border border-line p-5 md:p-7">
+                    <p className="eyebrow text-muted">Asked for by</p>
+                    <p className="mt-3 text-lg leading-snug tracking-[-0.01em] md:text-xl">{f.core.buyer}</p>
+                  </FadeUp>
+                </div>
+              )}
             </section>
 
             {/* Requirements */}
@@ -138,10 +158,22 @@ export default async function FrameworkPage({ params }: PageProps<"/frameworks/[
             <section id="approach" className="scroll-mt-32 lg:scroll-mt-28">
               <p className="eyebrow text-muted">Our approach</p>
               <Reveal as="h2" className="display mt-4 text-[clamp(2rem,4.6vw,4.6rem)] md:mt-6">
-                From scoping to <span className="em text-brand">auditor sign-off.</span>
+                {f.core ? (
+                  <>
+                    How we get you <span className="em text-brand">{f.name}-ready.</span>
+                  </>
+                ) : (
+                  <>
+                    From scoping to <span className="em text-brand">auditor sign-off.</span>
+                  </>
+                )}
               </Reveal>
-              <div className="-mx-[var(--gutter)] mt-6 flex snap-x snap-mandatory scroll-px-[var(--gutter)] gap-2 overflow-x-auto px-[var(--gutter)] [scrollbar-width:none] sm:mx-0 sm:mt-12 sm:grid sm:grid-cols-2 sm:gap-3 sm:overflow-visible sm:px-0 xl:grid-cols-5 [&::-webkit-scrollbar]:hidden">
-                {process.map((p, i) => (
+              <div
+                className={`-mx-[var(--gutter)] mt-6 flex snap-x snap-mandatory scroll-px-[var(--gutter)] gap-2 overflow-x-auto px-[var(--gutter)] [scrollbar-width:none] sm:mx-0 sm:mt-12 sm:grid sm:grid-cols-2 sm:gap-3 sm:overflow-visible sm:px-0 [&::-webkit-scrollbar]:hidden ${
+                  f.core ? "xl:grid-cols-4" : "xl:grid-cols-5"
+                }`}
+              >
+                {steps.map((p, i) => (
                   <FadeUp key={p.n} delay={i * 0.06} className="relative w-[72vw] shrink-0 snap-start overflow-hidden rounded-[1.25rem] bg-ink p-5 text-ivory sm:w-auto sm:rounded-[1.5rem] sm:p-6">
                     <p className="eyebrow text-accent">{p.time}</p>
                     <p className="em mt-5 text-4xl text-ivory/20 sm:mt-8 sm:text-5xl">{p.n}</p>
@@ -151,6 +183,29 @@ export default async function FrameworkPage({ params }: PageProps<"/frameworks/[
                 ))}
               </div>
             </section>
+
+            {/* What you get (core frameworks) */}
+            {f.core && (
+              <section id="deliverables" className="scroll-mt-32 lg:scroll-mt-28">
+                <p className="eyebrow text-muted">What you get</p>
+                <Reveal as="h2" className="display mt-4 text-[clamp(2rem,4.6vw,4.6rem)] md:mt-6">
+                  What you <span className="em text-brand">walk away with.</span>
+                </Reveal>
+                <ul className="mt-6 grid grid-cols-2 gap-2 md:mt-12 md:grid-cols-3 md:gap-3">
+                  {f.core.deliverables.map((d, i) => (
+                    <FadeUp as="li" key={d} delay={(i % 3) * 0.06} className="flex flex-col justify-between gap-6 rounded-[1.1rem] border border-line bg-paper/60 p-4 md:min-h-36 md:p-6">
+                      <span className="eyebrow text-brand">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="text-[0.95rem] leading-snug tracking-[-0.01em] md:text-lg">{d}</span>
+                    </FadeUp>
+                  ))}
+                </ul>
+                <div className="mt-6 md:mt-10">
+                  <Button href="#book" book={f.name}>
+                    Talk to a {f.name} practitioner
+                  </Button>
+                </div>
+              </section>
+            )}
 
             {/* Related */}
             <section id="related" className="scroll-mt-32 lg:scroll-mt-28">

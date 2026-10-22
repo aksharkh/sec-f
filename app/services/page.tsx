@@ -3,6 +3,7 @@ import { PageHero } from "@/components/page/PageHero";
 import { ServiceRows } from "@/components/services/ServiceRows";
 import { Process } from "@/components/home/Process";
 import { StoriesRail } from "@/components/home/StoriesRail";
+import { SHOW_STORIES } from "@/lib/stories";
 import { FinalCTA } from "@/components/home/FinalCTA";
 import { Button } from "@/components/ui/Button";
 
@@ -27,7 +28,7 @@ export default function ServicesPage() {
       />
       <ServiceRows />
       <Process eyebrow="How it works" />
-      <StoriesRail eyebrow="Results" />
+      {SHOW_STORIES && <StoriesRail eyebrow="Results" />}
       <FinalCTA eyebrow="Start here" />
     </>
   );

@@ -38,11 +38,11 @@ The local git history has one commit, the untouched #4 baseline, so `git diff` s
 | #7 | Section numbering for scanning | Homepage 01–11, case studies 01–05 |
 | #7 | Location on case-study cards | Homepage 10, /customers |
 
-**New standards (7):** BS 9997:2019, BS 10008-1:2020, BS 7858:2019, BS EN 15713:2023, ISO 15489-1:2016, ISO 28000:2022, ISO 14001:2015. Each has its own `/frameworks/<slug>` page. ISO 14001, ISO 28000 and BS 9997 sit under Management Systems; the other four form a new family, "Records & Secure Handling". The site now lists 36 frameworks and every count updates from `lib/content.ts`.
+**New standards (7):** BS 9997:2019, BS 10008-1:2020, BS 7858:2019, BS EN 15713:2023, ISO 15489-1:2016, ISO 28000:2022, ISO 14001:2015. Each has its own `/frameworks/<slug>` page. ISO 14001, ISO 28000 and BS 9997 sit under Management Systems; the other four form a new family, "Records & Secure Handling". Later additions, FedRAMP 20x and CUI (NIST SP 800-171), bring the site to 38 frameworks; every count updates from `lib/content.ts`. StateRAMP is listed under its current name, GovRAMP (the URL stays `/frameworks/stateramp`).
 
 ### Seema's four rules
 
-1. **Real or permission-cleared stories and stats only.** The figures under the hero now describe the practice itself (36 frameworks, 16 control domains, 2 hubs, 1 control set), not client outcomes. The six case studies are still fictional, so each one shows a "Sample" tag. Set `STORIES_ARE_SAMPLES = false` in `lib/stories.ts` once real stories replace them.
+1. **Real or permission-cleared stories and stats only.** The figures under the hero now describe the practice itself (38 frameworks, 16 control domains, 3 hubs, 1 control set), not client outcomes. The six case studies in `lib/stories.ts` are still fictional, so they are switched off (`SHOW_STORIES = false`). That hides the homepage stories section, the stories on service, framework and industry pages, and the Customers page and its links; `/customers` returns a 404. Replace them with real, permission-cleared stories, then set `SHOW_STORIES = true` to bring all of it back, with no tags.
 2. **"Audit readiness and auditor coordination", never issuing SOC or ISO reports.** Copy was reworded throughout, for example: the "Unified Audit" service is now "Auditor Coordination", process step "Certify" is now "Audit", and "signed report" became "auditor sign-off". `roleLine` in `lib/content.ts` holds the standard sentence.
 3. **US spelling throughout**, including US date format (Oct 7, 2026) and 12-hour clocks.
 4. **One heavy animation per screen, mobile responsive.** The control matrix from #1 keeps its pinned scroll sequence because it is the only animation on its screen. See "On phones" below.
@@ -63,6 +63,18 @@ Phones get their own layouts rather than the desktop page shrunk down. Everythin
 The header hides as you scroll down and returns when you scroll up (this was in the code but never worked; GSAP's entrance animation was blocking it). Sticky bars move up with it.
 
 Phone page lengths went down by a quarter to a half: home 25,300px → 19,300px, About 11,600px → 6,700px, a service page 9,800px → 5,800px, Insights 6,200px → 3,400px.
+
+## Core frameworks
+
+Seema asked to lead with **SOC 2, FedRAMP, CMMC and GDPR**, then named her core services: **FedRAMP 20x, FedRAMP, GovRAMP, CMMC, CUI and ITAR**. FedRAMP 20x is the featured service (`FEATURED_SLUG`), with a link above the homepage headline and a large card at the top of the core section covering Classes A to D, KSIs and the SDR package in Word and JSON. Its page content follows FedRAMP's Consolidated Rules for 2026 (class requirements, KSIs, Security Decision Record); re-check it against fedramp.gov when FedRAMP updates those rules, since Class D is still a pilot. `CORE_SERVICES` controls the "Core" tags and ordering below. The four homepage cards come from `CORE_SLUGS` in `lib/frameworks.ts`, and their entries carry extra content under `core` (what it proves, who asks for it, a four-step delivery plan, deliverables), plus six requirements and their own FAQs. Change the list there and every place below follows:
+
+- Homepage: the hero line names them first, and a new section, 02 "Core frameworks", has one card each (a swipe row on phones). "The problem" lists them as the separate programs.
+- Each of the four framework pages: a "Core framework" label, "What it proves" and "Asked for by" boxes, its own delivery steps, and a "What you get" section.
+- Framework index: they come first, tagged "Core".
+- Header Frameworks menu, footer frameworks box, booking form and readiness quiz: they come first.
+- Service pages: they appear in each service's "Frameworks covered".
+
+**Hubs:** Seema said there are three delivery hubs. The count is updated everywhere it appears (homepage figures, hero line, coverage section, About, Careers), but only Wilmington and Bengaluru are listed with addresses and clocks. Add the third to `contact.offices` in `lib/content.ts` once she shares the city, address, phone and time zone.
 
 ## Layout, type and motion
 
@@ -85,10 +97,10 @@ If a high-resolution original turns up (the vector file from whoever registered 
 
 ## Still needs real content before launch
 
-- `lib/stories.ts`: six fictional case studies (names, figures, quotes).
+- `lib/stories.ts`: six fictional case studies (names, figures, quotes), hidden until replaced (see rule 1). The `testimonials` in `lib/content.ts` are placeholders too and only appear on the hidden Customers page.
 - `lib/content.ts`: `team` (placeholder roles, no names or photos), `credentials`, `roles` (careers), and the security-testing commitments (48h critical findings, free retest), which SecureKnots needs to confirm.
 - `components/overlays/BookingModal.tsx`: the form shows success but is not yet connected to email or a CRM (see the TODO).
-- The control matrix, readiness card and terminal output are labeled as illustrative samples, which is intended.
+- The control matrix, readiness card and terminal output are labeled as illustrations, which is intended.
 
 ## Optional cleanup
 

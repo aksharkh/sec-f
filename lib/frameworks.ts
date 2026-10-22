@@ -15,6 +15,17 @@ export type Framework = {
   assessment: string;
   related: string[];
   faq: { q: string; a: string }[];
+  /** Only on the core frameworks: deeper content for the homepage and their own pages. */
+  core?: CoreDetail;
+};
+
+export type CoreDetail = {
+  /** The market the framework opens. */
+  market: string;
+  proves: string;
+  buyer: string;
+  phases: { t: string; time: string; d: string }[];
+  deliverables: string[];
 };
 
 type Detail = Omit<Framework, "slug" | "name" | "group" | "groupId" | "faq"> & { faq?: { q: string; a: string }[] };
@@ -27,15 +38,33 @@ const details: Record<string, Detail> = {
     who: ["SaaS and cloud companies selling to enterprise", "Managed service and data-processing providers", "Any vendor facing security questionnaires in procurement"],
     requirements: [
       { t: "Trust Services Criteria", d: "Security is mandatory; availability, confidentiality, processing integrity and privacy are chosen by scope." },
+      { t: "System description", d: "A description of your service, its boundaries and the criteria in scope, which the auditor reports against." },
       { t: "Control design (Type I)", d: "Auditor confirms controls are suitably designed at a point in time." },
       { t: "Operating effectiveness (Type II)", d: "Controls are tested over an observation window, typically 3 to 12 months." },
+      { t: "Vendors & subservice organizations", d: "How the cloud providers and vendors you rely on are covered, carved out or included, and monitored." },
       { t: "Evidence & sampling", d: "Population-based sampling of access reviews, change tickets, onboarding, incidents and more." },
     ],
     timeline: "8-16 weeks to Type I",
     validity: "Renewed annually",
     assessment: "Licensed CPA firm",
     related: ["iso-27001", "soc-3", "hipaa", "iso-42001"],
-    faq: [{ q: "Type I or Type II, which do we need?", a: "Most enterprise buyers ultimately want Type II. A Type I is a useful first milestone that unblocks deals while your observation window runs." }],
+    core: {
+      market: "Commercial trust",
+      proves: "That your controls meet the AICPA Trust Services Criteria, tested by an independent CPA firm.",
+      buyer: "Enterprise customers, in security reviews and procurement.",
+      phases: [
+        { t: "Scope", time: "Weeks 1-2", d: "Choose the Trust Services Criteria your buyers expect, draw the system boundary, and decide between Type I and Type II." },
+        { t: "Gap assessment", time: "Weeks 2-4", d: "Test your current controls against the criteria and turn the gaps into a prioritized plan." },
+        { t: "Remediate & collect evidence", time: "Weeks 4-12", d: "Policies written, missing controls implemented, and evidence collection set up in the tools you already use." },
+        { t: "Readiness review & audit", time: "Weeks 12-16", d: "A mock audit, help choosing a CPA firm, and coordination through Type I fieldwork and the Type II window." },
+      ],
+      deliverables: ["Scoping memo", "Control matrix mapped to the criteria", "Policy set", "System description draft", "Evidence calendar", "Mock audit", "CPA firm shortlist"],
+    },
+    faq: [
+      { q: "Type I or Type II, which do we need?", a: "Most enterprise buyers ultimately want Type II. A Type I is a useful first milestone that unblocks deals while your observation window runs." },
+      { q: "Who issues the SOC 2 report?", a: "An independent, licensed CPA firm. We prepare you and coordinate the audit; we never issue the report ourselves, which keeps the attestation independent." },
+      { q: "How long is the Type II observation window?", a: "Anywhere from 3 to 12 months. First reports often use a shorter window so you have a report sooner, then move to 12 months at renewal." },
+    ],
   },
   "soc-1": {
     full: "System and Organization Controls 1 (SSAE 18)",
@@ -134,6 +163,47 @@ const details: Record<string, Detail> = {
     assessment: "Coordinated auditors",
     related: ["soc-2", "iso-27001", "pci-dss", "hipaa"],
   },
+  "fedramp-20x": {
+    full: "FedRAMP 20x, Classes A to D",
+    issuer: "GSA / FedRAMP",
+    summary: "FedRAMP's certification path under its Consolidated Rules for 2026. Long narrative control write-ups give way to Key Security Indicators (KSIs) backed by automated evidence, recorded in a Security Decision Record (SDR) in both human-readable and JSON form.",
+    who: [
+      "Cloud providers pursuing FedRAMP certification under the 2026 rules",
+      "SaaS companies with a recent SOC 2 Type II, FedRAMP Rev5 or GovRAMP certification (the Class A route)",
+      "Teams that would rather prove security with automation than with narrative documents",
+    ],
+    requirements: [
+      { t: "Class A", d: "Builds on a certification from an approved framework in the past 12 months: FedRAMP Rev5 (including FedRAMP Ready), SOC 2 Type II or GovRAMP. A fresh independent assessment is optional." },
+      { t: "Class B", d: "A fresh independent assessment, and at least one automated method for each Key Security Indicator." },
+      { t: "Class C", d: "A fresh independent assessment, and at least two automated methods for each Key Security Indicator." },
+      { t: "Class D", d: "A fresh independent assessment, and at least four automated methods for each Key Security Indicator. Class D is currently being piloted." },
+      { t: "Key Security Indicators (KSIs)", d: "Measurable statements of security capability across ten themes, from identity and access management to supply chain risk, each with its own measures, automation and history." },
+      { t: "Security Decision Record (SDR)", d: "For every applicable rule and KSI: how it is met, and how that was verified and validated, independently too. Supplied in human-readable form and as JSON that validates against FedRAMP's schema." },
+    ],
+    timeline: "Varies by class",
+    validity: "Ongoing, with persistent validation",
+    assessment: "Independent assessor",
+    related: ["fedramp", "stateramp", "soc-2", "nist-800-53"],
+    core: {
+      market: "US federal cloud",
+      proves: "That a cloud service meets FedRAMP's security outcomes, shown through Key Security Indicators and automated, machine-readable evidence.",
+      buyer: "Federal agencies choosing cloud services from the FedRAMP Marketplace.",
+      phases: [
+        { t: "Choose your class", time: "Weeks 1-2", d: "Match Class A, B, C or D to the certifications you already hold, your customers, and how much of your security you can show automatically." },
+        { t: "Map to the KSIs", time: "Weeks 2-6", d: "Map your controls and tooling to each Key Security Indicator, then close the gaps in measures and automated validation." },
+        { t: "Build the SDR package", time: "Weeks 6-12", d: "Write the Security Decision Record as a Word document and generate the matching JSON, validated against FedRAMP's schema." },
+        { t: "Assessment & upkeep", time: "Ongoing", d: "Coordinate with your independent assessor, answer their comments in the SDR, and keep the KSI evidence current." },
+      ],
+      deliverables: ["Class recommendation (A to D)", "KSI mapping", "Automated validation plan", "Security Decision Record (Word)", "SDR in JSON, schema-validated", "Assessor coordination"],
+    },
+    faq: [
+      { q: "What is FedRAMP 20x?", a: "FedRAMP's path to certification under its Consolidated Rules for 2026. Instead of long narrative control descriptions, you show security through Key Security Indicators, backed by automated evidence and a Security Decision Record." },
+      { q: "Which class do we need?", a: "It depends on what you already hold and what you can automate. Class A builds on a recent FedRAMP Rev5, SOC 2 Type II or GovRAMP certification. Classes B, C and D need a fresh independent assessment and progressively more automated validation for each KSI. We recommend a class in the first two weeks." },
+      { q: "What is the SDR, and why Word and JSON?", a: "The Security Decision Record documents how you meet each applicable rule and KSI, and how that was verified and validated. FedRAMP requires it in human-readable form and as JSON that validates against its schema, so we deliver both: a Word document for people and JSON for systems." },
+      { q: "When do the 2026 rules apply?", a: "The Consolidated Rules for 2026 launched on June 24, 2026. Providers can obtain initial certification under them from July 4, 2026, and must maintain ongoing certification under them from January 1, 2027." },
+      { q: "Who certifies us?", a: "FedRAMP, based on an independent assessment. We are your readiness partner: we prepare your KSIs and SDR package and coordinate with the assessor. We never perform the assessment ourselves." },
+    ],
+  },
   fedramp: {
     full: "Federal Risk and Authorization Management Program",
     issuer: "GSA / FedRAMP PMO",
@@ -141,19 +211,37 @@ const details: Record<string, Detail> = {
     who: ["Cloud service providers selling to US federal agencies", "SaaS companies pursuing public-sector revenue", "Vendors to agencies with an authorizing sponsor"],
     requirements: [
       { t: "Impact baseline", d: "Low, Moderate or High control baselines drawn from NIST SP 800-53 Rev. 5." },
-      { t: "System Security Plan", d: "A detailed SSP with boundary, data flows and control implementation statements." },
+      { t: "Authorization boundary", d: "Every component, data flow and external service that touches federal data, drawn and inventoried." },
+      { t: "System Security Plan", d: "A detailed SSP with implementation statements for each applicable control." },
+      { t: "FIPS-validated cryptography", d: "Federal data encrypted in transit and at rest with FIPS 140 validated modules." },
       { t: "3PAO assessment", d: "Independent testing by an accredited Third Party Assessment Organization." },
-      { t: "Continuous monitoring", d: "Ongoing vulnerability scanning, POA&M management and reporting." },
+      { t: "Continuous monitoring", d: "Monthly vulnerability scanning, POA&M updates and an annual assessment." },
     ],
     timeline: "6-18 months",
     validity: "Continuous monitoring",
     assessment: "Accredited 3PAO",
-    related: ["nist-800-53", "stateramp", "cmmc", "soc-2"],
-    faq: [{ q: "Do we need an agency sponsor?", a: "The traditional path runs through an agency authorization. FedRAMP is modernizing its processes, so we'll map the current authorization routes to your go-to-market plan during scoping." }],
+    related: ["fedramp-20x", "nist-800-53", "stateramp", "cmmc"],
+    core: {
+      market: "US federal cloud",
+      proves: "That a cloud service meets the NIST SP 800-53 baseline the US government requires before agencies can use it.",
+      buyer: "Federal agencies, and the contractors who buy cloud services for them.",
+      phases: [
+        { t: "Impact level & route", time: "Months 1-2", d: "Confirm the impact level, the authorization route that fits your sales plan, and the boundary." },
+        { t: "SSP & remediation", time: "Months 2-8", d: "Boundary diagrams, inventory and control statements, while closing gaps such as FIPS encryption, MFA and logging." },
+        { t: "3PAO assessment", time: "Months 8-12", d: "Coordination with an accredited 3PAO through testing, then POA&Ms worked down for the authorization decision." },
+        { t: "Continuous monitoring", time: "Ongoing", d: "Monthly scans, POA&M updates and the annual assessment, run so the authorization stays current." },
+      ],
+      deliverables: ["Impact level & route assessment", "Boundary & data-flow diagrams", "System Security Plan", "Policies & procedures", "POA&M", "Continuous monitoring plan"],
+    },
+    faq: [
+      { q: "Do we need an agency sponsor?", a: "The traditional Rev5 path runs through an agency authorization. FedRAMP 20x is the other path, based on Key Security Indicators, so during scoping we'll map both routes to your go-to-market plan." },
+      { q: "Low, Moderate or High?", a: "The impact level reflects the harm if the data were compromised. Most cloud services sold to agencies are categorized Moderate, which brings several hundred controls; High is for the most sensitive systems." },
+      { q: "Who grants the authorization?", a: "A federal authorizing official, after reviewing your package and the 3PAO's independent assessment. We prepare you and coordinate the work; the assessment and the decision stay independent." },
+    ],
   },
   stateramp: {
-    full: "StateRAMP / GovRAMP",
-    issuer: "GovRAMP (formerly StateRAMP)",
+    full: "GovRAMP (formerly StateRAMP)",
+    issuer: "GovRAMP",
     summary: "A security verification program for cloud providers serving US state and local governments, built on NIST SP 800-53 and aligned with FedRAMP.",
     who: ["Cloud providers selling to states, counties and cities", "EdTech and GovTech vendors", "FedRAMP-bound companies starting at state level"],
     requirements: [
@@ -165,7 +253,7 @@ const details: Record<string, Detail> = {
     timeline: "4-9 months",
     validity: "Continuous monitoring",
     assessment: "Accredited 3PAO",
-    related: ["fedramp", "nist-800-53"],
+    related: ["fedramp", "fedramp-20x", "nist-800-53"],
   },
   cmmc: {
     full: "Cybersecurity Maturity Model Certification",
@@ -174,15 +262,33 @@ const details: Record<string, Detail> = {
     who: ["Defense Industrial Base primes and subcontractors", "Manufacturers and engineering firms handling CUI", "IT and cloud providers to defense suppliers"],
     requirements: [
       { t: "Level 1, Foundational", d: "Basic safeguarding of FCI with an annual self-assessment." },
-      { t: "Level 2, Advanced", d: "The 110 requirements of NIST SP 800-171, typically assessed by a C3PAO." },
+      { t: "Level 2, Advanced", d: "The 110 requirements of NIST SP 800-171, assessed by the company itself or by a C3PAO, depending on the contract." },
       { t: "Level 3, Expert", d: "Selected NIST SP 800-172 requirements, assessed by the government." },
-      { t: "SSP & POA&M", d: "Documented implementation and limited, time-bound plans of action." },
+      { t: "CUI scoping", d: "Which people, systems and facilities touch CUI, often with an enclave to shrink the boundary." },
+      { t: "SSP & POA&M", d: "Documented implementation, and limited, time-bound plans of action for what is still open." },
+      { t: "SPRS score", d: "Level 2 results are scored against the 110 requirements and recorded in the government's SPRS system." },
     ],
     timeline: "4-12 months to Level 2",
     validity: "3 years, annual affirmation",
     assessment: "Self / C3PAO / DIBCAC",
-    related: ["nist-800-53", "itar", "ear", "nist-csf"],
-    faq: [{ q: "When does CMMC show up in our contracts?", a: "Requirements are being phased into DoD solicitations over several years. If you handle CUI, the time to prepare is now, Level 2 readiness rarely takes less than a few months." }],
+    related: ["cui", "nist-800-53", "itar", "ear"],
+    core: {
+      market: "US defense supply chain",
+      proves: "That a defense contractor protects contract and controlled unclassified information to the level its contracts require.",
+      buyer: "The Department of Defense, and the prime contractors who flow requirements down to suppliers.",
+      phases: [
+        { t: "Scope CUI", time: "Weeks 1-3", d: "Map where FCI and CUI flow, confirm the level you need, and decide whether an enclave shrinks the boundary." },
+        { t: "Gap assessment", time: "Weeks 3-6", d: "Score against the 110 NIST SP 800-171 requirements and estimate your SPRS score." },
+        { t: "Remediate & document", time: "Months 2-8", d: "Missing requirements implemented, the SSP written, and POA&Ms kept within what the rule allows." },
+        { t: "Mock assessment & C3PAO", time: "Months 8-12", d: "An assessment-style rehearsal of your evidence, then coordination with your C3PAO." },
+      ],
+      deliverables: ["CUI flow map", "Scoping & enclave design", "System Security Plan", "SPRS score estimate", "POA&M", "Mock assessment"],
+    },
+    faq: [
+      { q: "When does CMMC show up in our contracts?", a: "The DFARS rule took effect on November 10, 2025 and phases CMMC in over several years. Phase 1 brought Level 1 and Level 2 self-assessments into contracts; from November 10, 2026, Phase 2 adds Level 2 certification assessments by a C3PAO. If you handle CUI, Level 2 readiness rarely takes less than a few months." },
+      { q: "Can we pass with open items?", a: "Only for certain lower-weighted requirements and above a minimum score. Open items go on a POA&M and must be closed within 180 days, so plan to fix most gaps before the assessment." },
+      { q: "Who performs the assessment?", a: "Level 1 is a self-assessment. Level 2 is a self-assessment or a C3PAO certification assessment, depending on the contract, and Level 3 is assessed by the government. We prepare you; the assessment stays independent." },
+    ],
   },
   "nist-800-53": {
     full: "NIST SP 800-53 Rev. 5",
@@ -199,6 +305,25 @@ const details: Record<string, Detail> = {
     validity: "Continuous",
     assessment: "Independent assessor",
     related: ["fedramp", "stateramp", "cmmc", "nist-csf"],
+  },
+  cui: {
+    full: "Controlled Unclassified Information (NIST SP 800-171)",
+    issuer: "NIST / US Department of Defense",
+    summary: "The safeguarding rules for sensitive government information held by contractors: the security requirements of NIST SP 800-171, plus DFARS 252.204-7012 incident reporting on defense contracts. The foundation CMMC Level 2 assesses.",
+    who: ["Defense contractors and subcontractors handling CUI", "Universities and research labs on federal contracts", "Manufacturers receiving controlled technical drawings"],
+    requirements: [
+      { t: "CUI identification", d: "Knowing which information is CUI, how it is marked, and where it flows through your systems." },
+      { t: "NIST SP 800-171", d: "The security requirements for protecting CUI in contractor systems; the 110 requirements of Rev. 2 are what CMMC Level 2 assesses." },
+      { t: "System Security Plan", d: "How each requirement is met, for every system that stores, processes or transmits CUI." },
+      { t: "Incident reporting", d: "Cyber incidents affecting covered defense information reported to the DoD within 72 hours under DFARS 252.204-7012." },
+      { t: "Cloud services", d: "Cloud services holding covered defense information must meet the FedRAMP Moderate baseline or equivalent." },
+      { t: "Flow-down", d: "The same requirements passed on to subcontractors who handle CUI." },
+    ],
+    timeline: "3-9 months",
+    validity: "Ongoing obligation",
+    assessment: "Self-assessment / CMMC",
+    related: ["cmmc", "itar", "nist-800-53", "ear"],
+    faq: [{ q: "How is CUI different from CMMC?", a: "The CUI rules are the requirements; CMMC is how the DoD verifies that you meet them. Getting your CUI program right is most of the work toward CMMC Level 2." }],
   },
   itar: {
     full: "International Traffic in Arms Regulations",
@@ -274,12 +399,31 @@ const details: Record<string, Detail> = {
       { t: "Lawful basis & transparency", d: "Documented basis for processing and clear privacy notices." },
       { t: "Records & DPIAs", d: "Records of processing activities and impact assessments for high-risk processing." },
       { t: "Data subject rights", d: "Access, erasure, portability and objection handled on time." },
+      { t: "Processors & contracts", d: "Data processing agreements with every processor, and due diligence on their sub-processors." },
+      { t: "International transfers", d: "Standard Contractual Clauses or another valid mechanism, with a transfer assessment, for data leaving the EEA." },
       { t: "Breach notification", d: "Supervisory authority notified within 72 hours where required." },
     ],
     timeline: "8-12 weeks",
     validity: "Ongoing obligation",
     assessment: "Gap assessment & audit",
     related: ["iso-27701", "ccpa", "dpdpa", "pdpa"],
+    core: {
+      market: "EU privacy",
+      proves: "That you collect, use and transfer the personal data of people in the EU lawfully, and can show it.",
+      buyer: "European customers and their data protection officers, and EU regulators.",
+      phases: [
+        { t: "Data mapping", time: "Weeks 1-3", d: "Find where personal data lives, why you hold it and who you share it with, and build the record of processing." },
+        { t: "Gap assessment", time: "Weeks 3-5", d: "Test notices, lawful bases, contracts, rights handling and security against the regulation." },
+        { t: "Fix & document", time: "Weeks 5-10", d: "Privacy notices, DPAs, transfer mechanisms, DPIAs and a rights-request process that works." },
+        { t: "Operate", time: "Ongoing", d: "Breach response drills, vendor reviews, and updates when your product or processing changes." },
+      ],
+      deliverables: ["Data map & record of processing", "Privacy notice review", "DPA templates", "Transfer assessment", "DPIA template", "Rights & breach procedures"],
+    },
+    faq: [
+      { q: "Is there a GDPR certificate?", a: "There is no single, widely used GDPR certificate. Companies show compliance through records, contracts and procedures, often backed by ISO 27701 or SOC 2 privacy criteria. We prepare that evidence and, where you want a certification, coordinate the auditors." },
+      { q: "Does GDPR apply if we have no EU office?", a: "Yes, if you offer goods or services to people in the EU or monitor their behavior." },
+      { q: "Do we need a data protection officer?", a: "Only in certain cases, such as large-scale monitoring of people or large-scale processing of sensitive data. We'll tell you during the gap assessment whether you do." },
+    ],
   },
   ccpa: {
     full: "California Consumer Privacy Act (as amended by CPRA)",
@@ -630,3 +774,15 @@ export function nameOf(slug: string) {
 }
 
 export const getFramework = (slug: string) => frameworks.find((f) => f.slug === slug);
+
+/** The frameworks SecureKnots leads with: one card each on the homepage. */
+export const CORE_SLUGS = ["soc-2", "fedramp", "cmmc", "gdpr"];
+/** Shown above the core cards, as the featured service. */
+export const FEATURED_SLUG = "fedramp-20x";
+/** Seema's core services: tagged "Core" and listed first across the site. */
+export const CORE_SERVICES = ["fedramp-20x", "fedramp", "soc-2", "cmmc", "gdpr", "stateramp", "itar", "cui"];
+
+type CoreFramework = Framework & { core: CoreDetail };
+export const coreFrameworks = CORE_SLUGS.map((s) => getFramework(s)!) as CoreFramework[];
+export const featuredFramework = getFramework(FEATURED_SLUG)! as CoreFramework;
+export const isCore = (slug: string) => CORE_SERVICES.includes(slug);

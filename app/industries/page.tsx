@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { industries } from "@/lib/content";
 import { frameworks } from "@/lib/frameworks";
-import { stories } from "@/lib/stories";
+import { SHOW_STORIES, stories } from "@/lib/stories";
 import { PageHero } from "@/components/page/PageHero";
 import { Glyph } from "@/components/ui/Glyph";
 import { Arrow, Button } from "@/components/ui/Button";
@@ -51,7 +51,7 @@ export default function IndustriesPage() {
       <StackPanels>
         {industries.map((ind, i) => {
           const light = tones[i].includes("text-ink");
-          const story = stories.find((s) => s.industry === storyFor[ind.name]);
+          const story = SHOW_STORIES ? stories.find((s) => s.industry === storyFor[ind.name]) : undefined;
           return (
             <article
               key={ind.name}

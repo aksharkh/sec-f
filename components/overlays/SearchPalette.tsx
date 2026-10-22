@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { SEARCH_EVENT } from "@/lib/gsap";
 import { frameworks } from "@/lib/frameworks";
 import { services } from "@/lib/content";
-import { stories } from "@/lib/stories";
+import { SHOW_STORIES, stories } from "@/lib/stories";
 import { articles } from "@/lib/insights";
 import { Modal } from "./Modal";
 
@@ -17,7 +17,7 @@ const index: Item[] = [
     ["All frameworks", "/frameworks"],
     ["Services", "/services"],
     ["Industries", "/industries"],
-    ["Customer stories", "/customers"],
+    ...(SHOW_STORIES ? [["Customer stories", "/customers"]] : []),
     ["About", "/about"],
     ["Insights", "/insights"],
     ["Careers", "/careers"],
@@ -25,7 +25,7 @@ const index: Item[] = [
   ].map(([title, href]) => ({ group: "Pages", title, sub: href, href })),
   ...frameworks.map((f) => ({ group: "Frameworks", title: f.name, sub: f.full, href: `/frameworks/${f.slug}` })),
   ...services.map((s) => ({ group: "Services", title: s.title, sub: s.kicker, href: `/services/${s.id}` })),
-  ...stories.map((s) => ({ group: "Customer stories", title: s.company, sub: s.headline, href: `/customers/${s.slug}` })),
+  ...(SHOW_STORIES ? stories : []).map((s) => ({ group: "Customer stories", title: s.company, sub: s.headline, href: `/customers/${s.slug}` })),
   ...articles.map((a) => ({ group: "Insights", title: a.title, sub: a.tag, href: `/insights/${a.slug}` })),
 ];
 

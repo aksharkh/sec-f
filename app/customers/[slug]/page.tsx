@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { stories, getStory } from "@/lib/stories";
+import { SHOW_STORIES, stories, getStory } from "@/lib/stories";
 import { frameworks } from "@/lib/frameworks";
 import { HeroFade } from "@/components/page/HeroFade";
 import { Chip } from "@/components/page/Blocks";
@@ -10,7 +10,6 @@ import { Glyph, toneClasses } from "@/components/ui/Glyph";
 import { Button, Arrow } from "@/components/ui/Button";
 import { StoryCard } from "@/components/stories/StoryCard";
 import { FinalCTA } from "@/components/home/FinalCTA";
-import { SampleTag } from "@/components/stories/SampleTag";
 
 const CHAPTERS = [
   { id: "overview", label: "Overview" },
@@ -30,20 +29,20 @@ function Chapter({ i, className }: { i: number; className?: string }) {
 }
 
 export function generateStaticParams() {
-  return stories.map((s) => ({ slug: s.slug }));
+  return SHOW_STORIES ? stories.map((s) => ({ slug: s.slug })) : [];
 }
 
 export async function generateMetadata({ params }: PageProps<"/customers/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const s = getStory(slug);
-  if (!s) return {};
+  if (!s || !SHOW_STORIES) return { robots: { index: false } };
   return { title: `${s.company}, customer story`, description: s.summary };
 }
 
 export default async function StoryPage({ params }: PageProps<"/customers/[slug]">) {
   const { slug } = await params;
   const s = getStory(slug);
-  if (!s) notFound();
+  if (!s || !SHOW_STORIES) notFound();
   const t = toneClasses[s.tone];
   const idx = stories.indexOf(s);
   const next = stories[(idx + 1) % stories.length];
@@ -81,7 +80,6 @@ export default async function StoryPage({ params }: PageProps<"/customers/[slug]
                 {s.hq} · {s.industry}
               </span>
             </span>
-            <SampleTag dark={!light} className="md:ml-2" />
           </HeroFade>
           <HeroFade className={`eyebrow mt-7 flex gap-4 md:mt-10 ${t.sub}`}>
             <span>01</span>

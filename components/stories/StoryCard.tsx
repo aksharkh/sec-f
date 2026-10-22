@@ -2,7 +2,6 @@ import Link from "next/link";
 import type { Story } from "@/lib/stories";
 import { Glyph, toneClasses } from "@/components/ui/Glyph";
 import { Arrow } from "@/components/ui/Button";
-import { SampleTag } from "./SampleTag";
 
 /** Customer story card, company mark, headline metric, frameworks, generative art. */
 export function StoryCard({ story, className, size = "md" }: { story: Story; className?: string; size?: "md" | "lg" }) {
@@ -36,7 +35,6 @@ export function StoryCard({ story, className, size = "md" }: { story: Story; cla
             <span className={`block text-sm ${t.sub}`}>{story.hq}</span>
           </span>
         </div>
-        <SampleTag dark={!(story.tone === "accent" || story.tone === "paper")} />
       </div>
 
       <div className="relative mt-auto pt-12 md:pt-24">

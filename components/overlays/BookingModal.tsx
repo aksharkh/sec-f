@@ -5,7 +5,7 @@ import { BOOK_EVENT, toast } from "@/lib/gsap";
 import { Modal, CloseButton } from "./Modal";
 import { ReededGlassStatic } from "@/components/ui/ReededGlass";
 
-const FRAMEWORKS = ["SOC 2", "ISO 27001", "ISO 42001", "HIPAA", "PCI DSS", "FedRAMP", "CMMC", "GDPR", "DORA", "DPDPA", "SEBI CSCRF", "ISO 14001", "ISO 28000", "UK BS standards", "Not sure yet"];
+const FRAMEWORKS = ["FedRAMP 20x", "FedRAMP", "SOC 2", "CMMC", "GDPR", "GovRAMP", "ITAR", "CUI", "ISO 27001", "ISO 42001", "HIPAA", "PCI DSS", "DORA", "DPDPA", "SEBI CSCRF", "ISO 14001", "ISO 28000", "UK BS standards", "Not sure yet"];
 
 type BookDetail = { framework?: string; frameworks?: string[]; message?: string } | undefined;
 const TIMELINES = ["Under 3 months", "3-6 months", "6-12 months", "Just exploring"];

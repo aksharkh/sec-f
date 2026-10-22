@@ -1,11 +1,13 @@
 /**
- * PLACEHOLDER, sample customer stories with fictional company names.
- * Replace with approved client case studies (names, logos, figures, quotes) before launch.
+ * PLACEHOLDER: the stories below are fictional (company names, people,
+ * quotes and figures), written to build the page templates.
  *
- * While this is true every story is marked "Sample" on the site. Set it to
- * false only once every story below is real or permission-cleared.
+ * They stay off the site while SHOW_STORIES is false: the homepage stories
+ * section, the stories on service, framework and industry pages, the
+ * Customers page and its links. Replace them with real, permission-cleared
+ * case studies, then set SHOW_STORIES to true to bring everything back.
  */
-export const STORIES_ARE_SAMPLES = true;
+export const SHOW_STORIES = false;
 
 export type Story = {
   slug: string;

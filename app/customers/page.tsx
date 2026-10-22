@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Fragment } from "react";
-import { stories, storyIndustries, storyFrameworks } from "@/lib/stories";
+import { notFound } from "next/navigation";
+import { SHOW_STORIES, stories, storyIndustries, storyFrameworks } from "@/lib/stories";
 import { PageHero } from "@/components/page/PageHero";
 import { SectionHead } from "@/components/page/Blocks";
 import { StoryCard } from "@/components/stories/StoryCard";
@@ -11,12 +12,15 @@ import { VelocityMarquee } from "@/components/ui/VelocityMarquee";
 import { KnotMark } from "@/components/ui/Logo";
 import { FadeUp } from "@/components/ui/Reveal";
 
-export const metadata: Metadata = {
-  title: "Customer stories",
-  description: "How healthcare, fintech, defense, AI and SaaS teams tied SOC 2, ISO 27001, CMMC, PCI DSS and more into one program.",
-};
+export const metadata: Metadata = SHOW_STORIES
+  ? {
+      title: "Customer stories",
+      description: "How healthcare, fintech, defense, AI and SaaS teams tied SOC 2, ISO 27001, CMMC, PCI DSS and more into one program.",
+    }
+  : { robots: { index: false } };
 
 export default function CustomersPage() {
+  if (!SHOW_STORIES) notFound();
   const featured = stories.find((s) => s.featured) ?? stories[0];
   const avgWeeks = Math.round(stories.reduce((n, s) => n + s.weeks, 0) / stories.length);
   const fwCount = new Set(stories.flatMap((s) => s.frameworks)).size;

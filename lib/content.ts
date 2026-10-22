@@ -52,9 +52,11 @@ export const frameworkGroups: FrameworkGroup[] = [
     name: "Government & Defense",
     blurb: "Authorizations that unlock public-sector revenue.",
     items: [
+      { name: "FedRAMP 20x", slug: "fedramp-20x", region: "US", full: "FedRAMP 20x, Classes A to D" },
       { name: "FedRAMP", slug: "fedramp", region: "US" },
-      { name: "StateRAMP / GovRAMP", slug: "stateramp", region: "US" },
+      { name: "GovRAMP", slug: "stateramp", region: "US", full: "Formerly StateRAMP" },
       { name: "CMMC", slug: "cmmc", region: "US", full: "Cybersecurity Maturity Model Certification" },
+      { name: "CUI", slug: "cui", region: "US", full: "Controlled Unclassified Information (NIST SP 800-171)" },
       { name: "NIST 800-53", slug: "nist-800-53", region: "US" },
       { name: "ITAR", slug: "itar", region: "US" },
       { name: "EAR", slug: "ear", region: "US" },
@@ -212,7 +214,7 @@ export const process = [
 export const stats = [
   { value: frameworkCount, suffix: "", label: "Frameworks and standards in one practice" },
   { value: 16, suffix: "", label: "Control domains in one unified library" },
-  { value: 2, suffix: "", label: "Delivery hubs, Delaware and Bengaluru" },
+  { value: 3, suffix: "", label: "Delivery hubs, including Delaware and Bengaluru" },
   { value: 1, suffix: "", label: "Control set behind every framework you need" },
 ];
 
@@ -220,7 +222,7 @@ export const industries = [
   { name: "SaaS & Cloud", frameworks: ["SOC 2", "ISO 27001", "ISO 42001", "GDPR"], note: "Close enterprise deals without the security-review stall." },
   { name: "Fintech & Payments", frameworks: ["PCI DSS", "SOC 1", "DORA", "SEBI CSCRF"], note: "Prove resilience to banks, networks and regulators." },
   { name: "Healthcare & Life Sciences", frameworks: ["HIPAA", "ISO 27701", "SOC 2", "GDPR"], note: "Protect patient data and pass partner diligence." },
-  { name: "Government & Defense", frameworks: ["FedRAMP", "CMMC", "NIST 800-53", "ITAR"], note: "Win public-sector contracts with authorization in hand." },
+  { name: "Government & Defense", frameworks: ["FedRAMP 20x", "FedRAMP", "GovRAMP", "CMMC", "CUI", "ITAR"], note: "Win public-sector contracts with authorization in hand." },
   { name: "AI & Data Platforms", frameworks: ["ISO 42001", "ISO 27701", "GDPR", "SOC 2"], note: "Show responsible AI governance before buyers ask." },
   { name: "Enterprise & BFSI", frameworks: ["ISO 22301", "ITGC", "SOC 1", "DPDPA"], note: "Harmonize controls across entities and geographies." },
 ];
@@ -307,7 +309,7 @@ export const serviceDetails: Record<
       { t: "Regulatory watch", d: "Early warning on changes that affect you." },
     ],
     outcomes: [{ v: "1", l: "Control set for every framework" }, { v: "16", l: "Control domains, mapped once" }, { v: "2 wks", l: "To a costed roadmap" }],
-    frameworks: ["soc-2", "iso-27001", "iso-42001", "gdpr", "dora"],
+    frameworks: ["soc-2", "fedramp-20x", "fedramp", "cmmc", "gdpr", "iso-27001"],
   },
   readiness: {
     tagline: "Walk into the audit already knowing what your auditor will test.",
@@ -320,7 +322,7 @@ export const serviceDetails: Record<
       { t: "Auditor selection", d: "Shortlisting and negotiation support." },
     ],
     outcomes: [{ v: "8-16", l: "Weeks to audit-ready, typical" }, { v: "1", l: "Mock audit before fieldwork" }, { v: "0", l: "Reports issued by us; your auditor stays independent" }],
-    frameworks: ["soc-2", "iso-27001", "cmmc", "hipaa", "pci-dss"],
+    frameworks: ["soc-2", "fedramp-20x", "fedramp", "cmmc", "cui", "gdpr"],
   },
   unified: {
     tagline: "Test each control once. Map the evidence everywhere. Coordinate every auditor.",
@@ -333,7 +335,7 @@ export const serviceDetails: Record<
       { t: "Executive reporting", d: "One readiness view for the board." },
     ],
     outcomes: [{ v: "3-5", l: "Frameworks per program" }, { v: "1", l: "Fieldwork window" }, { v: "1", l: "Evidence request list" }],
-    frameworks: ["unified-audits", "soc-2", "iso-27001", "pci-dss", "hipaa"],
+    frameworks: ["unified-audits", "soc-2", "fedramp-20x", "fedramp", "cmmc", "iso-27001"],
   },
   testing: {
     tagline: "Find what attackers would, and satisfy auditors in the same engagement.",
@@ -347,7 +349,7 @@ export const serviceDetails: Record<
     ],
     // CONFIRM with SecureKnots: these are service commitments, not historical stats.
     outcomes: [{ v: "100%", l: "Manual validation of findings" }, { v: "48h", l: "Critical findings reported" }, { v: "Free", l: "Retest included" }],
-    frameworks: ["pci-dss", "soc-2", "iso-27001", "dora", "fedramp"],
+    frameworks: ["soc-2", "fedramp", "pci-dss", "iso-27001", "dora"],
   },
   continuous: {
     tagline: "Stay audit-ready all year, so renewals are a formality.",
@@ -360,7 +362,7 @@ export const serviceDetails: Record<
       { t: "Renewal management", d: "Auditor scheduling and evidence refresh." },
     ],
     outcomes: [{ v: "365", l: "Days audit-ready" }, { v: "48h", l: "Questionnaire turnaround" }, { v: "1", l: "Named security lead" }],
-    frameworks: ["soc-2", "iso-27001", "cmmc", "sebi-cscrf", "dpdpa"],
+    frameworks: ["soc-2", "fedramp-20x", "fedramp", "cmmc", "gdpr", "iso-27001"],
   },
 };
 

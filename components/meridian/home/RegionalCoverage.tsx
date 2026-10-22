@@ -45,7 +45,7 @@ export function RegionalCoverage() {
     <section id="coverage" data-rail="Regions" className="bg-ivory py-16 md:py-24 lg:py-28">
       <div className="container-x">
         <Head
-          n="06"
+          n="07"
           label="Coverage"
           title={
             <>
@@ -147,7 +147,7 @@ export function RegionalCoverage() {
               })}
             </div>
             <p className="mt-5 text-sm leading-relaxed text-muted">
-              Two delivery hubs on opposite sides of the world, so work on your program hands over at the end of the day instead of stopping.
+              Three delivery hubs across time zones, so work on your program hands over at the end of the day instead of stopping.
             </p>
           </aside>
         </div>

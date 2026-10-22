@@ -4,6 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { frameworkGroups, frameworkCount, navLinks, services } from "@/lib/content";
+import { CORE_SERVICES, getFramework } from "@/lib/frameworks";
+import { SHOW_STORIES } from "@/lib/stories";
+
+const coreServices = CORE_SERVICES.map((s) => getFramework(s)!);
 import { ScrollTrigger, gsap, onSiteReady, openSearch, prefersReducedMotion } from "@/lib/gsap";
 import { SecureKnotsLogo } from "@/components/brand/SecureKnotsLogo";
 import { IndexMenu } from "./IndexMenu";
@@ -105,7 +109,7 @@ export function MeridianNav() {
           </Link>
 
           <nav aria-label="Primary" className="hidden items-center gap-7 lg:flex xl:gap-9">
-            {navLinks.map((l) => (
+            {navLinks.filter((l) => SHOW_STORIES || l.href !== "/customers").map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
@@ -174,7 +178,17 @@ export function MeridianNav() {
                 <div className="col-span-3">
                   <p className="num text-[4rem] text-ink">{frameworkCount}</p>
                   <p className="mt-2 max-w-[16rem] text-sm text-muted">Frameworks delivered as one program. Tested once, mapped everywhere.</p>
-                  <Link href="/frameworks" className="link-u mt-8 inline-flex text-sm text-ink">
+                  <p className="eyebrow mt-6 text-brand">Core services</p>
+                  <ul className="mt-3 flex flex-wrap gap-1.5">
+                    {coreServices.map((f) => (
+                      <li key={f.slug}>
+                        <Link href={`/frameworks/${f.slug}`} className="inline-flex rounded-full bg-brand px-3 py-1.5 text-[0.82rem] text-ivory transition-colors hover:bg-ink">
+                          {f.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href="/frameworks" className="link-u mt-6 inline-flex text-sm text-ink">
                     View the full index
                   </Link>
                 </div>

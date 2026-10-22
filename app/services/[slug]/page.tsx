@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { services, serviceDetails, frameworkCount } from "@/lib/content";
 import { getFramework } from "@/lib/frameworks";
-import { stories } from "@/lib/stories";
+import { SHOW_STORIES, stories } from "@/lib/stories";
 import { PageHero } from "@/components/page/PageHero";
 import { SectionHead } from "@/components/page/Blocks";
 import { FadeUp } from "@/components/ui/Reveal";
@@ -32,7 +32,7 @@ export default async function ServicePage({ params }: PageProps<"/services/[slug
   const d = serviceDetails[s.id];
   const idx = services.indexOf(s);
   const next = services[(idx + 1) % services.length];
-  const related = stories.filter((st) => st.services.includes(s.title)).slice(0, 2);
+  const related = SHOW_STORIES ? stories.filter((st) => st.services.includes(s.title)).slice(0, 2) : [];
   const fws = d.frameworks.map(getFramework).filter(Boolean) as NonNullable<ReturnType<typeof getFramework>>[];
 
   return (

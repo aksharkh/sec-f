@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import type { Framework } from "@/lib/frameworks";
+import { isCore, type Framework } from "@/lib/frameworks";
 import { frameworkGroups } from "@/lib/content";
 import { Glyph } from "@/components/ui/Glyph";
 import { Arrow } from "@/components/ui/Button";
@@ -13,11 +13,13 @@ export function FrameworkExplorer({ items }: { items: Framework[] }) {
 
   const list = useMemo(() => {
     const term = q.trim().toLowerCase();
-    return items.filter(
+    const hits = items.filter(
       (f) =>
         (group === "all" || f.groupId === group) &&
         (!term || f.name.toLowerCase().includes(term) || f.full.toLowerCase().includes(term) || f.issuer.toLowerCase().includes(term)),
     );
+    // Core frameworks lead the list (stable sort keeps the rest in order).
+    return [...hits].sort((a, b) => Number(isCore(b.slug)) - Number(isCore(a.slug)));
   }, [items, group, q]);
 
   const tabs = [{ id: "all", name: "All", n: items.length }, ...frameworkGroups.map((g) => ({ id: g.id, name: g.name, n: g.items.length }))];
@@ -78,7 +80,10 @@ export function FrameworkExplorer({ items }: { items: Framework[] }) {
                 strands={7}
               />
               <div className="relative flex items-start justify-between gap-2 md:gap-4">
-                <span className="eyebrow text-[0.56rem] leading-snug text-muted transition-colors group-hover:text-accent md:text-[0.7rem]">{f.group}</span>
+                <span className="eyebrow text-[0.56rem] leading-snug text-muted transition-colors group-hover:text-accent md:text-[0.7rem]">
+                  {isCore(f.slug) && <span className="mb-1.5 inline-flex rounded-full bg-brand px-2 py-0.5 text-ivory md:mr-2 md:mb-0">Core</span>}
+                  <span className="block md:inline">{f.group}</span>
+                </span>
                 <span className="grid size-7 shrink-0 place-items-center md:size-10 rounded-full border border-current/15 transition-transform duration-700 ease-out-expo group-hover:rotate-45 group-hover:border-accent group-hover:bg-accent group-hover:text-ink">
                   <Arrow className="size-3" />
                 </span>

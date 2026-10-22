@@ -111,7 +111,7 @@ export function ControlMatrix() {
         <div className="cm-inner flex w-full flex-col px-[var(--gutter)] pb-5 pt-6 group-data-[pin=1]/cm:h-full group-data-[pin=1]/cm:justify-center group-data-[pin=1]/cm:pt-16 md:h-full md:justify-center md:pb-[4vh] md:pt-[11vh]">
           <div className="flex items-end justify-between gap-4 md:flex-wrap md:gap-6">
             <div className="min-w-0">
-              <p className="eyebrow text-[0.6rem] text-ivory/50 md:text-[0.7rem]">Unified control matrix · sample program</p>
+              <p className="eyebrow text-[0.6rem] text-ivory/50 md:text-[0.7rem]">Unified control matrix · illustrative</p>
               <p className="serif mt-2 text-[clamp(1.35rem,2.8vw,2.6rem)] leading-[1.02]">
                 Tested once. <span className="em text-brand-3">Mapped to five.</span>
               </p>
@@ -130,7 +130,7 @@ export function ControlMatrix() {
             </div>
           </div>
 
-          <div role="table" aria-label="Sample unified control matrix" className="mt-4 min-h-0 overflow-hidden rounded-[6px] border border-line-dark bg-ink-2 md:mt-[3vh]">
+          <div role="table" aria-label="Illustrative unified control matrix" className="mt-4 min-h-0 overflow-hidden rounded-[6px] border border-line-dark bg-ink-2 md:mt-[3vh]">
             <div role="row" className={`${grid} border-b border-line-dark px-3 py-2 text-ivory/45 md:px-6 md:py-3`}>
               <span role="columnheader" className={`eyebrow col-start-1 row-start-1 text-[0.56rem] md:text-[0.7rem] ${MD_AUTO}`}>ID</span>
               <span role="columnheader" className={`eyebrow col-span-6 col-start-2 row-start-1 text-[0.56rem] md:col-span-1 md:text-[0.7rem] ${MD_AUTO}`}>
@@ -191,7 +191,7 @@ export function ControlMatrix() {
               Every control has one owner, one test and one status, mapped to every framework it satisfies.
             </span>
             <span>
-              Sample program: {ROWS.length} of {TOTAL} controls shown.
+              Illustrative excerpt: {ROWS.length} of {TOTAL} controls.
             </span>
           </p>
         </div>

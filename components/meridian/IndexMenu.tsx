@@ -1,5 +1,6 @@
 "use client";
 
+import { SHOW_STORIES } from "@/lib/stories";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -11,7 +12,7 @@ const pages = [
   { label: "Frameworks", href: "/frameworks" },
   { label: "Services", href: "/services" },
   { label: "Industries", href: "/industries" },
-  { label: "Customers", href: "/customers" },
+  ...(SHOW_STORIES ? [{ label: "Customers", href: "/customers" }] : []),
   { label: "About", href: "/about" },
   { label: "Insights", href: "/insights" },
   { label: "Careers", href: "/careers" },
